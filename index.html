@@ -180,9 +180,9 @@ button{font-family:inherit}
 .hs-num{font-family:var(--disp);font-weight:700;font-size:30px;color:#fff;line-height:1.05}
 .hs-desc{font-size:13px;color:rgba(201,210,206,.82);line-height:1.4;flex:1;min-width:170px}
 .hs-src{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(201,210,206,.6);display:block;margin-top:8px}
-.ev-toggle{margin-top:16px;width:100%;text-align:left;background:none;border:1px solid rgba(95,199,158,.28);border-radius:8px;color:rgba(201,210,206,.85);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:all .15s}
-.ev-toggle:hover{border-color:rgba(95,199,158,.5);background:rgba(95,199,158,.06)}
-.ev-toggle .chev{color:var(--green-soft);font-size:12px;transition:transform .2s}
+.ev-toggle{margin-top:16px;width:100%;text-align:left;background:var(--green);border:1px solid var(--green);border-radius:8px;color:#fff;font-family:var(--sans);font-size:13.5px;font-weight:600;padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:all .15s}
+.ev-toggle:hover{background:var(--green-dark);border-color:var(--green-dark)}
+.ev-toggle .chev{color:#fff;font-size:12px;transition:transform .2s}
 .ev-toggle.open .chev{transform:rotate(90deg)}
 .ev-panel{display:none;margin-top:10px;padding:14px;background:rgba(95,199,158,.05);border:1px solid rgba(95,199,158,.16);border-radius:9px}
 .ev-panel.open{display:block}
@@ -467,7 +467,7 @@ button{font-family:inherit}
             <div class="hs-row"><span class="hs-num" id="hs-num"></span><span class="hs-desc" id="hs-desc"></span></div>
             <span class="hs-src" id="hs-src"></span>
           </div>
-          <button class="ev-toggle" id="ev-toggle" aria-expanded="false">The evidence behind this<span class="chev">▶</span></button>
+          <button class="ev-toggle" id="ev-toggle" aria-expanded="false">Click for evidence<span class="chev">▶</span></button>
           <div class="ev-panel" id="ev-panel"></div>
           <div class="d-sec" id="d-mitre-sec"><h4>How this typically plays out &middot; MITRE ATT&amp;CK</h4><div id="d-mitre" class="mitre-tags"></div></div>
           <div class="d-sec"><h4 id="d-qhead">Questions for your board</h4><ul class="qlist" id="d-qlist"></ul></div>
