@@ -12,7 +12,7 @@
   --ink:#13201B; --body:#3C4642; --grey:#6E7A75; --hair:#E4E9E6; --bg:#FFFFFF; --tint:#F5F8F6;
   --green:#0F9B6C; --green-dark:#0B7A55; --green-soft:#5FC79E; --logo:#5FA82E;
   --rdr:#0E1311; --rdr-line:rgba(95,199,158,.16); --rdr-text:rgba(201,210,206,.66);
-  --crit:#E0584F; --elev:#E5A23A; --safe:#5FC79E;
+  --crit:#E0584F; --elev:#E5A23A; --safe:#5FC79E; --amber-ink:#B07A1E;
   --max:1180px;
   --disp:"Schibsted Grotesk",-apple-system,sans-serif;
   --sans:"Public Sans",-apple-system,sans-serif;
@@ -51,6 +51,9 @@ button{font-family:inherit}
 .meta-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
 .updated{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green-dark);background:rgba(15,155,108,.09);padding:5px 11px;border-radius:20px}
 .updated i{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+.reviewed-note{color:var(--grey);opacity:.85}
+.stale-note{display:none;margin-left:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber-ink);background:rgba(229,162,58,.12);padding:4px 10px;border-radius:20px}
+.stale-note.show{display:inline-flex;align-items:center}
 .cited{font-size:12.5px;color:var(--grey)} .cited b{color:var(--ink);font-weight:600}
 .score{flex:0 0 auto;text-align:right;min-width:184px}
 .score-top{display:flex;align-items:baseline;justify-content:flex-end;gap:3px}
@@ -74,6 +77,36 @@ button{font-family:inherit}
 .ctrl select{font-family:var(--sans);font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--hair);border-radius:7px;padding:9px 12px;cursor:pointer;min-width:150px}
 .ctrl select:hover{border-color:var(--green)}
 .controls .spacer{flex:1}
+
+/* indicative-scale slider */
+.ctrl.scale-ctrl{min-width:230px;position:relative}
+.scale-slider-wrap{padding-top:2px}
+#sel-band{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:4px;background:linear-gradient(to right,var(--hair) 0%,var(--green-soft) 100%);outline:none;cursor:pointer;margin:11px 0 3px;display:block}
+#sel-band::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--green);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.28);cursor:pointer}
+#sel-band::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--green);border:none;box-shadow:0 1px 4px rgba(0,0,0,.28);cursor:pointer}
+#sel-band:hover::-webkit-slider-thumb{background:var(--green-dark)}
+.scale-ticks{display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--grey);white-space:nowrap}
+.scale-ticks span{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s,font-weight .15s}
+.scale-ticks span:first-child{align-items:flex-start}
+.scale-ticks span:last-child{align-items:flex-end}
+.sc-ico{height:27px;display:flex;align-items:flex-end;color:var(--grey)}
+.scale-ticks span.active .sc-ico{color:var(--green)}
+.scale-ticks span.active{color:var(--green-dark);font-weight:600}
+
+/* bobbing nudge toward the indicative-scale slider */
+.band-callout{position:absolute;top:-50px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-family:var(--sans);font-size:12px;font-weight:500;line-height:1.35;padding:8px 12px;border-radius:8px;white-space:normal;width:220px;box-shadow:0 8px 20px rgba(0,0,0,.18);animation:askbob 2.6s ease-in-out infinite;z-index:5}
+.band-callout::after{content:"";position:absolute;bottom:-6px;left:50%;margin-left:-5px;width:10px;height:10px;background:var(--ink);transform:rotate(45deg)}
+.band-callout .bc-arrow{font-size:14px;line-height:1;flex:none}
+.band-callout.hide{display:none}
+@media(max-width:760px){ .band-callout{position:static;transform:none;display:inline-flex;margin-top:12px;width:auto;max-width:100%} .band-callout::after{display:none} .band-callout.hide{display:none} }
+
+/* cohort-only, deliberately inert */
+.cohort-row{margin-top:12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.cohort-btn{background:rgba(15,155,108,.07);border:1px dashed var(--green);color:var(--green-dark);font-family:var(--sans);font-size:12.5px;font-weight:500;padding:8px 14px;border-radius:7px;cursor:default;display:inline-flex;align-items:center;gap:7px;transition:background .15s,color .15s}
+.cohort-btn:hover{background:rgba(15,155,108,.13);color:var(--green-dark)}
+.cohort-lock{font-size:12px}
+.cohort-tip{font-size:12.5px;color:var(--grey);opacity:0;transition:opacity .2s}
+.cohort-tip.show{opacity:1}
 .btn{border:none;border-radius:7px;padding:11px 18px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s}
 .btn-primary{background:var(--ink);color:#fff} .btn-primary:hover{background:var(--green-dark)}
 .btn-ghost{background:none;border:1px solid var(--hair);color:var(--ink)} .btn-ghost:hover{border-color:var(--green);color:var(--green-dark)}
@@ -87,13 +120,16 @@ button{font-family:inherit}
 .legend .k{display:inline-flex;align-items:center;gap:6px}
 .legend .k i{width:8px;height:8px;border-radius:50%;display:inline-block}
 .legend .k.c i{background:var(--crit)} .legend .k.e i{background:var(--elev)} .legend .k.s i{background:var(--safe)}
-.legend .hint{color:rgba(201,210,206,.34)}
+.legend .hint{color:rgba(201,210,206,.6)}
 
 .grid-line{stroke:var(--rdr-line);fill:none}
 .sweep{transform-origin:300px 300px;animation:spin 8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hub{fill:var(--green)}
 .zone{font-family:var(--mono);font-size:9px;letter-spacing:.16em;fill:rgba(201,210,206,.4)}
+.zone-crit{fill:var(--crit);opacity:1}
+.zone-elev{fill:var(--elev);opacity:.85}
+.zone-safe{fill:var(--safe);opacity:.85}
 .blip{cursor:pointer}
 .blip .hit{fill:transparent;pointer-events:all}
 .blip .spoke,.blip .halo,.blip .ring,.blip .dot,.blip text{pointer-events:none}
@@ -122,7 +158,7 @@ button{font-family:inherit}
 .risk-list{margin-top:16px;display:flex;flex-direction:column;gap:2px}
 .risk-list button{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:8px;border-radius:7px;color:rgba(201,210,206,.82);font-size:14px;transition:background .15s}
 .risk-list button:hover{background:rgba(95,199,158,.08)}
-.risk-list .n{font-family:var(--mono);font-size:11px;color:rgba(201,210,206,.4);width:16px;flex:0 0 auto}
+.risk-list .n{font-family:var(--mono);font-size:11px;color:rgba(201,210,206,.6);width:16px;flex:0 0 auto}
 .risk-list .lv{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
 .lv.crit{background:var(--crit)} .lv.elev{background:var(--elev)} .lv.safe{background:var(--safe)}
 .risk-list .rn{flex:1}
@@ -143,7 +179,7 @@ button{font-family:inherit}
 .hs-row{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
 .hs-num{font-family:var(--disp);font-weight:700;font-size:30px;color:#fff;line-height:1.05}
 .hs-desc{font-size:13px;color:rgba(201,210,206,.82);line-height:1.4;flex:1;min-width:170px}
-.hs-src{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(201,210,206,.45);display:block;margin-top:8px}
+.hs-src{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(201,210,206,.6);display:block;margin-top:8px}
 .ev-toggle{margin-top:16px;width:100%;text-align:left;background:none;border:1px solid rgba(95,199,158,.28);border-radius:8px;color:rgba(201,210,206,.85);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;transition:all .15s}
 .ev-toggle:hover{border-color:rgba(95,199,158,.5);background:rgba(95,199,158,.06)}
 .ev-toggle .chev{color:var(--green-soft);font-size:12px;transition:transform .2s}
@@ -169,12 +205,16 @@ button{font-family:inherit}
 .prop-empty{font-size:13px;color:rgba(201,210,206,.5);font-style:italic}
 .ans{border-radius:9px;padding:12px 14px;margin-bottom:8px}
 .ans-strong{background:rgba(15,155,108,.09);border:1px solid rgba(15,155,108,.30);border-left:3px solid var(--green)}
-.ans-weak{background:rgba(229,162,58,.08);border:1px solid rgba(229,162,58,.28);border-left:3px solid var(--elev)}
+.ans-dev{background:rgba(229,162,58,.08);border:1px solid rgba(229,162,58,.28);border-left:3px solid var(--elev)}
+.ans-weak{background:rgba(224,88,79,.08);border:1px solid rgba(224,88,79,.28);border-left:3px solid var(--crit)}
 .ans-lab{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px}
 .ans-strong .ans-lab{color:var(--green-soft)}
-.ans-weak .ans-lab{color:var(--elev)}
+.ans-dev .ans-lab{color:var(--elev)}
+.ans-weak .ans-lab{color:var(--crit)}
 .ans p{font-size:13.5px;line-height:1.5;color:rgba(232,240,236,.9);margin:0}
 .ans-src{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:rgba(201,210,206,.5);margin-top:6px}
+.ans-scalebar{height:6px;border-radius:4px;background:linear-gradient(to right,var(--crit) 0%,var(--crit) 30%,var(--elev) 40%,var(--elev) 60%,var(--safe) 70%,var(--safe) 100%);margin:2px 0 12px;opacity:.85}
+.ans-scalelabs{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(201,210,206,.5);margin:-8px 0 12px}
 .ans-disc{margin-top:8px;font-size:11.5px;color:rgba(201,210,206,.55);font-style:italic}
 .d-actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
 .d-back,.d-share{background:none;border:1px solid rgba(95,199,158,.4);color:var(--green-soft);font-size:13px;padding:8px 16px;border-radius:6px;cursor:pointer;transition:all .15s}
@@ -223,6 +263,7 @@ button{font-family:inherit}
 .foot .tags{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:var(--grey);display:flex;gap:8px;flex-wrap:wrap}
 .foot .tags a{color:var(--grey);text-decoration:none;padding:2px 0;border-bottom:1px solid transparent} .foot .tags a:hover{color:var(--green-dark);border-bottom-color:var(--green)}
 .foot .note{font-size:13px;color:var(--grey);max-width:560px;margin-top:14px}
+.foot .foot-tag{font-family:var(--serif);font-style:italic;font-size:15px;color:#0B7A55;margin-top:16px}
 
 @media(max-width:840px){
   .radar-grid{grid-template-columns:1fr;gap:24px;padding:22px}
@@ -321,8 +362,8 @@ button{font-family:inherit}
         <h1>Where eight digital risks actually sit this quarter</h1>
         <p class="lede">The risks reaching building society, bank and insurer boardrooms, plotted by how pressing each one is right now. Closer to the centre means more urgent. Tap any signal for our read and the questions worth asking.</p>
         <div class="meta-line">
-          <span class="updated"><i></i> Q1 2026</span>
-          <span class="cited">Every line traces back to the <b>FCA, PRA, NCSC, ICO</b> or <b>Parliament</b>. No trade press.</span>
+          <span class="updated" id="quarter-badge"><i></i> Q1 2026</span><span class="stale-note" id="stale-note"></span>
+          <span class="cited">Every line traces back to the <b>FCA, PRA, NCSC, ICO</b> or <b>Parliament</b>. No trade press. <span class="reviewed-note">Sources last reviewed <span id="sources-reviewed"></span>.</span></span>
         </div>
       </div>
       <div class="score" id="score">
@@ -355,14 +396,27 @@ button{font-family:inherit}
           <option value="ned" selected>Non-Executive Director</option><option value="chairrisk">Chair of Board Risk</option><option value="chairaudit">Chair of Audit Committee</option>
         </select>
       </div>
-      <div class="ctrl">
+      <div class="ctrl scale-ctrl">
         <label for="sel-band">Indicative scale (optional)</label>
-        <select id="sel-band"><option value="">Not set</option><option value="small">Smaller firm</option><option value="mid">Mid-sized firm</option><option value="large">Larger / systemic</option></select>
+        <div class="scale-slider-wrap">
+          <input type="range" id="sel-band" min="0" max="3" step="1" value="0" aria-label="Indicative scale: not set, smaller firm, mid-sized firm, or larger and systemic">
+          <div class="scale-ticks" id="scale-ticks">
+            <span data-v="0" class="active"><i class="sc-ico"></i>Not set</span>
+            <span data-v="1"><i class="sc-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="11" width="12" height="10"/><rect x="9.3" y="14.3" width="1.6" height="1.6"/><rect x="13.1" y="14.3" width="1.6" height="1.6"/><rect x="10.2" y="17.8" width="3.6" height="3.2"/></svg></i>Smaller</span>
+            <span data-v="2"><i class="sc-ico"><svg viewBox="0 0 24 24" width="18" height="22" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="7" width="12" height="14"/><rect x="9" y="9.8" width="1.6" height="1.6"/><rect x="13" y="9.8" width="1.6" height="1.6"/><rect x="9" y="13.4" width="1.6" height="1.6"/><rect x="13" y="13.4" width="1.6" height="1.6"/><rect x="10.2" y="17.8" width="3.6" height="3.2"/></svg></i>Mid-size</span>
+            <span data-v="3"><i class="sc-ico"><svg viewBox="0 0 24 24" width="18" height="26" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="6" y="3" width="12" height="18"/><rect x="9" y="5.4" width="1.5" height="1.5"/><rect x="13" y="5.4" width="1.5" height="1.5"/><rect x="9" y="8.9" width="1.5" height="1.5"/><rect x="13" y="8.9" width="1.5" height="1.5"/><rect x="9" y="12.4" width="1.5" height="1.5"/><rect x="13" y="12.4" width="1.5" height="1.5"/><rect x="10.2" y="17.6" width="3.6" height="3.4"/></svg></i>Larger</span>
+          </div>
+        </div>
+        <div class="band-callout" id="band-callout"><span class="bc-arrow">&#128073;</span>Remember to click here to set your size, so we can show what's proportionate</div>
       </div>
       <div class="spacer"></div>
       <button class="btn btn-primary" id="open-board">Take this to your board</button>
       <button class="btn btn-dark" id="dl-pdf">Download brief (PDF)</button>
       <button class="btn btn-dark" id="open-howto">How to read this</button>
+    </div>
+    <div class="cohort-row">
+      <button type="button" class="cohort-btn" id="cohort-btn"><span class="cohort-lock">&#128274;</span>Cohort Group Only</button>
+      <span class="cohort-tip" id="cohort-tip">Reserved for firms accepted into the Digital Risk Radar cohort.</span>
     </div>
   </section>
 </div>
@@ -377,10 +431,13 @@ button{font-family:inherit}
             <linearGradient id="swp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5FC79E" stop-opacity="0"/><stop offset="1" stop-color="#5FC79E" stop-opacity=".26"/></linearGradient>
             <radialGradient id="core" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5FC79E" stop-opacity=".16"/><stop offset="55%" stop-color="#5FC79E" stop-opacity=".04"/><stop offset="100%" stop-color="#5FC79E" stop-opacity="0"/></radialGradient>
           </defs>
+          <circle class="band-crit" cx="300" cy="300" r="90" fill="var(--crit)" opacity=".055" pointer-events="none"/>
+          <circle class="band-elev" cx="300" cy="300" r="135" fill="none" stroke="var(--elev)" stroke-width="90" opacity=".045" pointer-events="none"/>
+          <circle class="band-safe" cx="300" cy="300" r="217.5" fill="none" stroke="var(--safe)" stroke-width="75" opacity=".04" pointer-events="none"/>
           <circle cx="300" cy="300" r="200" fill="url(#core)" pointer-events="none"/>
           <circle class="grid-line" cx="300" cy="300" r="255"/><circle class="grid-line" cx="300" cy="300" r="180"/><circle class="grid-line" cx="300" cy="300" r="90"/><circle class="grid-line" cx="300" cy="300" r="40"/>
           <line class="grid-line" x1="45" y1="300" x2="555" y2="300"/><line class="grid-line" x1="300" y1="45" x2="300" y2="555"/>
-          <text class="zone" x="306" y="266" text-anchor="start">CRITICAL</text><text class="zone" x="306" y="176" text-anchor="start">ELEVATED</text><text class="zone" x="306" y="86" text-anchor="start">MANAGED</text>
+          <text class="zone zone-crit" x="306" y="266" text-anchor="start">CRITICAL</text><text class="zone zone-elev" x="306" y="176" text-anchor="start">ELEVATED</text><text class="zone zone-safe" x="306" y="86" text-anchor="start">MANAGED</text>
           <g class="sweep"><path d="M300,300 L300,45 A255,255 0 0 1 495,131 Z" fill="url(#swp)"/><line x1="300" y1="300" x2="300" y2="45" stroke="#5FC79E" stroke-width="1.4" opacity=".7"/></g>
           <circle class="hub" cx="300" cy="300" r="4"/>
           <g id="blip-layer"></g>
@@ -437,7 +494,9 @@ button{font-family:inherit}
     </div>
     <div class="fb-anchors"><span>Not useful</span><span>Very useful</span></div>
     <textarea class="fb-text" id="fb-text" rows="2" placeholder="Anything you would add? (optional)"></textarea>
-    <input type="text" id="fb-hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0">
+    <div aria-hidden="true" style="display:none">
+      <input type="text" id="fb-hp" name="hp_field_leave_blank" tabindex="-1" autocomplete="off">
+    </div>
     <button class="btn btn-primary fb-send" id="fb-send">Send feedback</button>
     <div class="fb-thanks" id="fb-thanks">Thank you. That is genuinely useful, and it stays anonymous.</div>
   </div>
@@ -460,6 +519,7 @@ button{font-family:inherit}
     <a href="https://greendolphintccr.com/internal-audit-and-risk">RISK</a>
   </div>
   <div class="note">Free, quarterly, and cited to primary sources only. Switch sector, role and quarter, set an indicative scale for proportionality, download a board PDF, and view the MITRE technique mapping per risk. The risk takes themselves are deliberately not links.</div>
+  <p class="foot-tag">Guiding you through change with clarity and care.</p>
 </footer></div>
 
 <button class="ask-fab" id="open-ask"><span>📡</span> Ask the radar</button>
@@ -484,7 +544,7 @@ button{font-family:inherit}
   <div class="howto-body">
     <p><strong>What you are looking at.</strong> Eight digital risk domains, plotted by severity across three zones: critical, elevated and managed. The closer to the centre, the more critical. Each signal is colour-coded by its level, and its position moves when you switch sector.</p>
     <p><strong>Switch sector and role.</strong> Use the controls to move between Building Societies, Banks and Insurers, and to tailor the board questions to your role, from CEO to Chair of Audit.</p>
-    <p><strong>Proportionality.</strong> Set an indicative scale to see considerations of what firms of that size tend to be expected to have in place, each traceable to the regulator and framed as questions to test against your own context. It is not a compliance verdict, and nothing you select leaves your browser.</p>
+    <p><strong>Proportionality.</strong> Drag the indicative scale slider to a firm size and you will see what proportionate tends to look like at that scale, each traceable to the regulator and framed as a question to test against your own context, alongside worked examples across a weaker to stronger scale. It is not a compliance verdict, and nothing you select leaves your browser.</p>
     <p><strong>What this is.</strong> A thought leadership tool to prompt better board conversations, not a replacement for your risk register. Free, with no login and no personal data collected.</p>
   </div>
 </div></div>
@@ -498,36 +558,42 @@ var levelR = {Critical:78,Elevated:130,Managed:205};
 var lvlClass = {Critical:"crit",Elevated:"elev",Managed:"safe"};
 var ICO = 'https://ico.org.uk/action-weve-taken/enforcement/';
 
+// Update this one line each quarterly editorial refresh, alongside SECTORS/HISTORY/CURRENT_SUMMARY.
+// This is the quarter the CONTENT actually covers, not today's date — the two are compared below.
+var CONTENT_QUARTER = 'Q1 2026';
+var SOURCES_REVIEWED = 'late June 2026';
+function calcQuarter(d){ return 'Q'+(Math.floor(d.getMonth()/3)+1)+' '+d.getFullYear(); }
+var TODAY_QUARTER = calcQuarter(new Date()); // recalculated fresh every time the page loads
 var SECTORS = {
   bs:{label:"Building Societies",composite:"2.7",desc:"Elevated overall",risks:{
     thirdparty:{level:"Critical",dir:"Rising",take:"When the same supplier sits behind half the sector, strong controls of your own can still miss the point."},
-    ai:{level:"Elevated",dir:"Rising fast",take:"Your sharpest defensive tool is now also a supplier you do not control."},
+    ai:{level:"Elevated",dir:"Intensifying",take:"Frontier AI can find and exploit a weak control faster than any attacker could. The regulators have set out what boards should test for this year."},
     fraud:{level:"Elevated",dir:"Rising",take:"Reimbursement is working and losses are still climbing. You are paying, quickly, for a problem that starts where you cannot police it."},
     cyber:{level:"Elevated",dir:"Rising",take:"The question has shifted from whether you have been breached to whether you can keep running while you are.",ev:'Recent evidence: the ICO fined Capita and LastPass around £15m in late 2025 for breaches from cyberattacks.',evurl:ICO},
     conduct:{level:"Elevated",dir:"Rising",take:"For a mutual, fair value is the member promise made measurable. The regulator now tests the evidence, not the intent."},
     regulatory:{level:"Elevated",dir:"Intensifying",take:"The regulator now front-loads the cost. Waiting for a formal case is the wrong posture."},
-    tech:{level:"Elevated",dir:"Holding",take:"The release-management pattern behind the Lloyds incident exists in every major UK firm."},
-    resilience:{level:"Managed",dir:"Steady",take:"The deadline has passed. This is the year the evidence has to be real, not described."}
+    tech:{level:"Elevated",dir:"Holding",take:"The Lloyds release-management pattern is not the only live risk this quarter. NCSC is now flagging active attacks on firewalls and VPN gateways, so patching the edge matters as much as testing the pipeline."},
+    resilience:{level:"Managed",dir:"Steady",take:"The regulator\u2019s own review found firms still claiming they could recover from anything, without ever testing it. That gap is now visible to your supervisor, not just to you."}
   }},
   banks:{label:"Banks",composite:"3.0",desc:"Elevated overall",risks:{
     thirdparty:{level:"Critical",dir:"Rising",take:"When the same supplier sits behind half the sector, strong controls of your own can still miss the point."},
-    ai:{level:"Elevated",dir:"Rising fast",take:"Your sharpest defensive tool is now also a supplier you do not control."},
+    ai:{level:"Elevated",dir:"Intensifying",take:"Frontier AI can find and exploit a weak control faster than any attacker could. The regulators have set out what boards should test for this year."},
     fraud:{level:"Critical",dir:"Rising",take:"Banks carry the bulk of reimbursement. The losses keep climbing while the bill lands on you, not the platforms where the fraud begins."},
     cyber:{level:"Elevated",dir:"Rising",take:"The question has shifted from whether you have been breached to whether you can keep running while you are.",ev:'Recent evidence: the ICO fined Capita and LastPass around £15m in late 2025 for breaches from cyberattacks.',evurl:ICO},
     conduct:{level:"Elevated",dir:"Rising",take:"Fair value is now an evidence exercise. The FCA's home and travel investigations show where it bites next."},
     regulatory:{level:"Elevated",dir:"Intensifying",take:"The regulator now front-loads the cost. Waiting for a formal case is the wrong posture."},
     tech:{level:"Critical",dir:"Rising",take:"The Lloyds incident widened to over half a million people and is still under Treasury Committee scrutiny. This is the sector's most watched risk.",ev:'Recent evidence: the Treasury Committee is holding Lloyds to a six-month follow-up on the March 2026 app incident.',evurl:'https://committees.parliament.uk/committee/158/treasury-committee/news/213350/lloyds-give-further-update-on-it-glitch/'},
-    resilience:{level:"Elevated",dir:"Holding",take:"First full year inside impact tolerances, with the most concentrated, most systemic services to evidence."}
+    resilience:{level:"Elevated",dir:"Holding",take:"First full year inside impact tolerances, with the most concentrated, most systemic services to evidence. The incident and third-party reporting rules for March 2027 are now finalised, not proposed."}
   }},
   insurers:{label:"Insurers",composite:"2.8",desc:"Elevated overall",risks:{
     thirdparty:{level:"Elevated",dir:"Rising",take:"When the same supplier sits behind half the sector, strong controls of your own can still miss the point."},
-    ai:{level:"Elevated",dir:"Rising fast",take:"AI pricing and underwriting are where the upside and the fair-value scrutiny meet."},
+    ai:{level:"Elevated",dir:"Intensifying",take:"Frontier AI can find and exploit a weak control faster than any attacker could. The regulators have set out what boards should test for this year."},
     fraud:{level:"Elevated",dir:"Rising",take:"Claims and application fraud shift with the economy. Detection has to keep pace without punishing honest customers."},
     cyber:{level:"Elevated",dir:"Rising",take:"The question has shifted from whether you have been breached to whether you can keep running while you are.",ev:'Recent evidence: the ICO fined Capita and LastPass around £15m in late 2025 for breaches from cyberattacks.',evurl:ICO},
     conduct:{level:"Critical",dir:"Rising",take:"The FCA's home and travel fair-value investigations put conduct at the centre of the insurance picture this quarter.",ev:'Recent evidence: FCA Consumer Duty focus on fair value, following the Which? super-complaint on home and travel insurance.',evurl:'https://www.fca.org.uk/publications/corporate-documents/consumer-duty-focus-areas'},
     regulatory:{level:"Elevated",dir:"Intensifying",take:"The 2026 insurance priorities make fair value and product oversight the supervisory frontline."},
-    tech:{level:"Elevated",dir:"Holding",take:"The release-management pattern behind the Lloyds incident exists in every major UK firm."},
-    resilience:{level:"Managed",dir:"Steady",take:"The deadline has passed. This is the year the evidence has to be real, not described."}
+    tech:{level:"Elevated",dir:"Holding",take:"The Lloyds release-management pattern is not the only live risk this quarter. NCSC is now flagging active attacks on firewalls and VPN gateways, so patching the edge matters as much as testing the pipeline."},
+    resilience:{level:"Managed",dir:"Steady",take:"The regulator\u2019s own review found firms still claiming they could recover from anything, without ever testing it. That gap is now visible to your supervisor, not just to you."}
   }}
 };
 
@@ -547,44 +613,44 @@ var Q = {
 
 var ANSWERKEY = {
   thirdparty:{
-    small:{strong:"Management can name the few suppliers a core service depends on, holds a continuity or exit plan for each, and knows which would count as critical to the regulator.",weak:"“They are big, reputable names, so we rely on them.” Reputation is not resilience, and it does not tell the board what happens if one fails.",src:"FCA and PRA outsourcing and operational resilience expectations"},
-    mid:{strong:"Dependencies are mapped to important business services, workarounds have been tested in the last year rather than only documented, and supplier concentration is reported to the board against appetite.",weak:"A supplier register exists, but no one has tested what actually happens when a key supplier goes down.",src:"PRA outsourcing supervisory statement and the operational resilience rules"},
-    large:{strong:"The firm can evidence critical third party resilience to a supervisor, is ready for the March 2027 incident and third-party reporting rules, and treats shared-supplier concentration across the sector as a board-level risk.",weak:"March 2027 readiness is described as “in progress,” with no named owner, no plan and no board line of sight.",src:"FCA, PRA and Bank of England critical third party regime; March 2027 reporting"}
+    small:{strong:"Management can name the few suppliers a core service depends on, holds a continuity or exit plan for each, and knows which would count as critical to the regulator.",weak:"“They are big, reputable names, so we rely on them.” Reputation is not resilience, and it does not tell the board what happens if one fails.",dev:"A supplier register exists and the board has seen it, but continuity or exit plans are still being written for the suppliers that matter most.",src:"FCA and PRA outsourcing and operational resilience expectations"},
+    mid:{strong:"Dependencies are mapped to important business services, workarounds have been tested in the last year rather than only documented, and supplier concentration is reported to the board against appetite.",weak:"A supplier register exists, but no one has tested what actually happens when a key supplier goes down.",dev:"Dependencies are mapped and reported to the board, but workarounds have not yet been tested against a real failure.",src:"PRA outsourcing supervisory statement and the operational resilience rules"},
+    large:{strong:"The firm can evidence critical third party resilience to a supervisor, is ready for the March 2027 incident and third-party reporting rules, and treats shared-supplier concentration across the sector as a board-level risk.",weak:"March 2027 readiness is described as “in progress,” with no named owner, no plan and no board line of sight.",dev:"March 2027 readiness has an owner and a plan, but the firm cannot yet evidence it to a supervisor if asked today.",src:"FCA, PRA and Bank of England critical third party regime; March 2027 reporting"}
   },
   cyber:{
-    small:{strong:"Management can point to a cyber baseline against the NCSC CAF, a written incident response plan, and a clear answer to whether one core service could keep running through an attack.",weak:"“We have antivirus and firewalls and we have never been hit.” Not being hit yet is luck, not a plan, and it says nothing about recovery.",src:"NCSC Cyber Assessment Framework and severe cyber threat guidance"},
-    mid:{strong:"Response and recovery have been exercised in the last year against a severe scenario, not just documented, and the board governs cyber against the five principles of the NCSC Cyber Governance Code.",weak:"Policies are in place and audited, but the firm has never actually run a severe-attack exercise to see what breaks.",src:"NCSC and the Cyber Governance Code"},
-    large:{strong:"The firm can evidence cyber resilience to a supervisor on current testing, treats it as a business-continuity risk at board level, and knows its exposure where sensitive data sits with suppliers.",weak:"Cyber is reported to the board as a green status with no evidence behind the colour, and supplier data exposure is unmapped.",src:"NCSC, FCA and PRA"}
+    small:{strong:"Management can point to a cyber baseline against the NCSC CAF, a written incident response plan, and a clear answer to whether one core service could keep running through an attack.",weak:"“We have antivirus and firewalls and we have never been hit.” Not being hit yet is luck, not a plan, and it says nothing about recovery.",dev:"A cyber baseline exists against the NCSC CAF, but the incident response plan has not been tested end to end.",src:"NCSC Cyber Assessment Framework and severe cyber threat guidance"},
+    mid:{strong:"Response and recovery have been exercised in the last year against a severe scenario, not just documented, and the board governs cyber against the five principles of the NCSC Cyber Governance Code.",weak:"Policies are in place and audited, but the firm has never actually run a severe-attack exercise to see what breaks.",dev:"Response and recovery are documented against the Cyber Governance Code principles, but the last exercise predates the current threat picture.",src:"NCSC and the Cyber Governance Code"},
+    large:{strong:"The firm can evidence cyber resilience to a supervisor on current testing, treats it as a business-continuity risk at board level, and knows its exposure where sensitive data sits with suppliers.",weak:"Cyber is reported to the board as a green status with no evidence behind the colour, and supplier data exposure is unmapped.",dev:"Cyber resilience evidence exists for most controls, but supplier data exposure is only partially mapped.",src:"NCSC, FCA and PRA"}
   },
   fraud:{
-    small:{strong:"Management can show authorised push payment claims are reimbursed within the PSR timeframes, and basic prevention controls are in place and monitored.",weak:"“Once a customer has authorised the payment, the loss is theirs.” Under the reimbursement rules that is no longer how it works.",src:"PSR authorised push payment reimbursement rules"},
-    mid:{strong:"The firm can detect mule activity and social engineering in real time before funds leave, and the board sees fraud trends broken down by type, not just a single total, against appetite.",weak:"Fraud is reported as one annual number with no breakdown, so the board cannot see which attack types are actually growing.",src:"PSR and UK Finance"},
-    large:{strong:"Prevention investment is demonstrably keeping pace with rising authorised fraud, reimbursement handling meets the PSR standard consistently, and the firm knows how much of its fraud begins on platforms it does not control.",weak:"Losses are rising faster than prevention, and the strategy for fraud that starts outside the firm's own channels is to reimburse and move on.",src:"PSR and UK Finance"}
+    small:{strong:"Management can show authorised push payment claims are reimbursed within the PSR timeframes, and basic prevention controls are in place and monitored.",weak:"“Once a customer has authorised the payment, the loss is theirs.” Under the reimbursement rules that is no longer how it works.",dev:"APP claims are usually reimbursed within the PSR timeframe, but prevention controls are not yet consistently monitored.",src:"PSR authorised push payment reimbursement rules"},
+    mid:{strong:"The firm can detect mule activity and social engineering in real time before funds leave, and the board sees fraud trends broken down by type, not just a single total, against appetite.",weak:"Fraud is reported as one annual number with no breakdown, so the board cannot see which attack types are actually growing.",dev:"Fraud trends are reported by type, but detection still relies more on review after the event than on stopping it before funds leave.",src:"PSR and UK Finance"},
+    large:{strong:"Prevention investment is demonstrably keeping pace with rising authorised fraud, reimbursement handling meets the PSR standard consistently, and the firm knows how much of its fraud begins on platforms it does not control.",weak:"Losses are rising faster than prevention, and the strategy for fraud that starts outside the firm's own channels is to reimburse and move on.",dev:"Prevention investment is rising, but the firm cannot yet say whether it is keeping pace with losses that begin on platforms it does not control.",src:"PSR and UK Finance"}
   },
   ai:{
-    small:{strong:"Management can name every place AI now touches a customer or a decision, and each has an owner and a basic guardrail.",weak:"“We do not really use AI.” Most firms do, inside a supplier's product or a staff tool, and not knowing where is the exposure.",src:"FCA and NCSC AI guidance"},
-    mid:{strong:"Every AI component in production traces to an owner, a control and a fallback, and AI use is governed proportionately with documented controls.",weak:"AI tools have been adopted across teams with no register, no owner and no fallback if a model behaves unexpectedly.",src:"Bank of England and FCA joint statement on AI"},
-    large:{strong:"The firm can evidence AI governance to the standard the regulators have set, tracks the NCSC frontier AI and vulnerability guidance, and has a continuity plan if a relied-on model were suspended overnight.",weak:"AI is encouraged as innovation with no line of sight on the dependency it creates or the controls a supervisor would expect.",src:"Bank of England, FCA and CMORG"}
+    small:{strong:"Management can name every place AI now touches a customer or a decision, and each has an owner and a basic guardrail.",weak:"“We do not really use AI.” Most firms do, inside a supplier's product or a staff tool, and not knowing where is the exposure.",dev:"Most places AI touches a customer or a decision have been identified, but not every one yet has an owner or a guardrail.",src:"FCA and NCSC AI guidance"},
+    mid:{strong:"Every AI component in production traces to an owner, a control and a fallback, and AI use is governed proportionately with documented controls.",weak:"AI tools have been adopted across teams with no register, no owner and no fallback if a model behaves unexpectedly.",dev:"A register of AI components exists, but not every one yet traces to a control and a fallback if it misbehaves.",src:"Bank of England and FCA joint statement on AI"},
+    large:{strong:"The firm can evidence AI governance to the standard the regulators have set, tracks the NCSC frontier AI and vulnerability guidance, and has a continuity plan if a relied-on model were suspended overnight.",weak:"AI is encouraged as innovation with no line of sight on the dependency it creates or the controls a supervisor would expect.",dev:"AI governance is documented against the regulators' expectations, but the continuity plan for a suspended or withdrawn model is still being worked through.",src:"Bank of England, FCA and CMORG"}
   },
   regulatory:{
-    small:{strong:"The board is sighted on the specific regulatory changes resetting its baseline this year, and management can produce the data the regulator now expects without a fire drill.",weak:"“We will deal with it when the rules actually bite.” Under a supervision-led model the cost lands well before any formal case.",src:"FCA supervisory approach"},
-    mid:{strong:"Control attestations are robust enough to withstand early supervisory challenge, and the firm has mapped which upcoming changes, from the March 2027 reporting rules to Basel 3.1, touch it directly.",weak:"Attestations are signed on trust each year, with little evidence underneath them if a supervisor asked to see it.",src:"FCA and PRA; March 2027 reporting rules"},
-    large:{strong:"The firm produces the data the regulator expects proactively, is ready for the incident and third-party reporting regime, and tracks the full change agenda, including BNPL regulation, against its own book.",weak:"Regulatory change is tracked as a long list, with no one translating it into what actually changes for the firm.",src:"FCA, PRA and Bank of England"}
+    small:{strong:"The board is sighted on the specific regulatory changes resetting its baseline this year, and management can produce the data the regulator now expects without a fire drill.",weak:"“We will deal with it when the rules actually bite.” Under a supervision-led model the cost lands well before any formal case.",dev:"The board sees the year's key regulatory changes, but management is not yet confident it could produce the underlying data without a scramble.",src:"FCA supervisory approach"},
+    mid:{strong:"Control attestations are robust enough to withstand early supervisory challenge, and the firm has mapped which upcoming changes, from the March 2027 reporting rules to Basel 3.1, touch it directly.",weak:"Attestations are signed on trust each year, with little evidence underneath them if a supervisor asked to see it.",dev:"Attestations are signed with some evidence behind them, but not yet enough to withstand early supervisory challenge with confidence.",src:"FCA and PRA; March 2027 reporting rules"},
+    large:{strong:"The firm produces the data the regulator expects proactively, is ready for the incident and third-party reporting regime, and tracks the full change agenda, including BNPL regulation, against its own book.",weak:"Regulatory change is tracked as a long list, with no one translating it into what actually changes for the firm.",dev:"The change agenda is mapped, but producing the data proactively rather than on request is still a work in progress.",src:"FCA, PRA and Bank of England"}
   },
   tech:{
-    small:{strong:"Management can describe its release process and would know a customer-facing service was down before customers did, with basic monitoring in place.",weak:"“Our systems are stable, we rarely have problems.” The Lloyds outage came from a single overnight change to a stable system.",src:"Treasury Committee work on IT failures; operational resilience"},
-    mid:{strong:"Release management is rigorous, change is tested before it reaches production, and the board sees the firm's unplanned outage record honestly against the sector.",weak:"Changes are pushed with light testing, and the board has never been shown the firm's actual outage record.",src:"Treasury Committee; operational resilience rules"},
-    large:{strong:"The firm can evidence the change and IT-failure controls the Treasury Committee is probing, knows its greatest single point of technical failure, and tracks outages over a multi-year window.",weak:"IT resilience is assumed because nothing major has failed recently, and the single points of failure have never been identified.",src:"Treasury Committee; FCA and PRA"}
+    small:{strong:"Management can describe its release process and would know a customer-facing service was down before customers did, with basic monitoring in place.",weak:"“Our systems are stable, we rarely have problems.” The Lloyds outage came from a single overnight change to a stable system.",dev:"Basic monitoring exists and releases are tracked, but the firm would not always know a customer-facing outage before customers reported it.",src:"Treasury Committee work on IT failures; operational resilience"},
+    mid:{strong:"Release management is rigorous, change is tested before it reaches production, and the board sees the firm's unplanned outage record honestly against the sector.",weak:"Changes are pushed with light testing, and the board has never been shown the firm's actual outage record.",dev:"Change is tested before release, but the board has only an informal sense of the firm's actual outage record.",src:"Treasury Committee; operational resilience rules"},
+    large:{strong:"The firm can evidence the change and IT-failure controls the Treasury Committee is probing, knows its greatest single point of technical failure, and tracks outages over a multi-year window.",weak:"IT resilience is assumed because nothing major has failed recently, and the single points of failure have never been identified.",dev:"Single points of failure are partly identified, but the multi-year outage picture the Treasury Committee expects is not yet routinely tracked.",src:"Treasury Committee; FCA and PRA"}
   },
   resilience:{
-    small:{strong:"Management can name its important business services and show it could keep them within their impact tolerances today, not just on paper.",weak:"“We have a business continuity plan.” A plan in a drawer is not the same as having tested that the service actually holds.",src:"FCA and PRA operational resilience rules"},
-    mid:{strong:"Recovery and workarounds have been tested this year under severe-but-plausible scenarios, and the third parties sitting inside important business services are in scope of that testing.",weak:"Impact tolerances are documented, but the firm has not tested whether it can stay inside them when something fails.",src:"FCA and PRA operational resilience rules"},
-    large:{strong:"The firm can evidence it is living inside its impact tolerances now the deadline has passed, and has assessed whether the FMI Fundamental Rules taking effect in July 2026 apply to it.",weak:"Resilience is treated as a finished compliance project rather than something tested and re-tested as the business changes.",src:"FCA, PRA and Bank of England; FMI Fundamental Rules"}
+    small:{strong:"Management can name its important business services and show it could keep them within their impact tolerances today, not just on paper.",weak:"“We have a business continuity plan.” A plan in a drawer is not the same as having tested that the service actually holds.",dev:"Important business services are named, but staying within impact tolerances has been assumed rather than tested.",src:"FCA and PRA operational resilience rules"},
+    mid:{strong:"Recovery and workarounds have been tested this year under severe-but-plausible scenarios, and the third parties sitting inside important business services are in scope of that testing.",weak:"Impact tolerances are documented, but the firm has not tested whether it can stay inside them when something fails.",dev:"Recovery has been tested against some scenarios, but third parties inside important business services are not yet fully in scope of that testing.",src:"FCA and PRA operational resilience rules"},
+    large:{strong:"The firm can evidence it is living inside its impact tolerances now the deadline has passed, and has assessed whether the FMI Fundamental Rules taking effect in July 2026 apply to it.",weak:"Resilience is treated as a finished compliance project rather than something tested and re-tested as the business changes.",dev:"The firm believes it is living inside its impact tolerances, but has not yet formally assessed whether the July 2026 FMI Fundamental Rules apply.",src:"FCA, PRA and Bank of England; FMI Fundamental Rules"}
   },
   conduct:{
-    small:{strong:"Management can show, with evidence rather than assertion, how it concluded a product delivers fair value, and can see outcomes for vulnerable customers.",weak:"“Our products are fair, we have always treated customers well.” Consumer Duty asks you to evidence that, not assert it.",src:"FCA Consumer Duty"},
-    mid:{strong:"Systems produce data on actual customer outcomes, not just process compliance, and the board sees outcomes for vulnerable customers rather than averages.",weak:"Outcomes are reported as averages, so a poor outcome for vulnerable customers is invisible in the numbers.",src:"FCA Consumer Duty"},
-    large:{strong:"The firm has a fair-value gap analysis with an evidence pack a supervisor would accept, and can say what the FCA's home and travel fair-value investigations would look like applied to its own book.",weak:"Profitability and fair value are telling two different stories, and no one has reconciled them for the board.",src:"FCA Consumer Duty; fair-value investigations"}
+    small:{strong:"Management can show, with evidence rather than assertion, how it concluded a product delivers fair value, and can see outcomes for vulnerable customers.",weak:"“Our products are fair, we have always treated customers well.” Consumer Duty asks you to evidence that, not assert it.",dev:"Management believes products deliver fair value, but the evidence behind that view is still being assembled rather than tested.",src:"FCA Consumer Duty"},
+    mid:{strong:"Systems produce data on actual customer outcomes, not just process compliance, and the board sees outcomes for vulnerable customers rather than averages.",weak:"Outcomes are reported as averages, so a poor outcome for vulnerable customers is invisible in the numbers.",dev:"Outcome data exists, but it is not yet broken out clearly enough to see how vulnerable customers specifically are faring.",src:"FCA Consumer Duty"},
+    large:{strong:"The firm has a fair-value gap analysis with an evidence pack a supervisor would accept, and can say what the FCA's home and travel fair-value investigations would look like applied to its own book.",weak:"Profitability and fair value are telling two different stories, and no one has reconciled them for the board.",dev:"A fair-value analysis exists, but it has not yet been tested against the kind of scrutiny the FCA's home and travel investigations applied elsewhere.",src:"FCA Consumer Duty; fair-value investigations"}
   }
 };
 var PROP = {
@@ -627,11 +693,13 @@ var EVIDENCE = {
     {src:"FCA",line:"New incident and third-party reporting rules taking effect in March 2027.",url:"https://www.fca.org.uk/news/news-stories/fca-confirms-new-incident-and-third-party-rules-bolster-resilience"}
   ],
   tech:[
+    {src:"NCSC",line:"Urgent advisory on active exploitation of Fortinet firewalls and VPN gateways, alongside critical Citrix NetScaler vulnerabilities under live attack.",url:"https://www.ncsc.gov.uk/news/advice-following-global-targeting-of-fortinet-firewalls-and-vpn-gateways"},
     {src:"UK Parliament",line:"Treasury Committee holding Lloyds to a six-month follow-up on the March 2026 app incident, which widened to over half a million people.",url:"https://committees.parliament.uk/committee/158/treasury-committee/news/213350/lloyds-give-further-update-on-it-glitch/"},
     {src:"UK Parliament",line:"Treasury Committee data showing nine major banks and building societies recorded over 800 hours of unplanned outage across two years.",url:"https://committees.parliament.uk/committee/158/treasury-committee/news/205611/more-than-one-months-worth-of-it-failures-at-major-banks-and-building-societies-in-the-last-two-years/"},
     {src:"Bank of England",line:"Fundamental Rules for financial market infrastructures take effect on 19 July 2026.",url:"https://www.bankofengland.co.uk/paper/2026/ss/operational-incident-reporting-for-fmis-ss"}
   ],
   resilience:[
+    {src:"FCA",line:"Insights and observations one year on from the operational resilience deadline: mapping still leans on technology over people and third parties, and some firms assert recovery from any scenario without evidence of testing it.",url:"https://www.fca.org.uk/publications/good-and-poor-practice/operational-resilience-insights-observations-one-year"},
     {src:"FCA",line:"Operational resilience now in steady state: firms expected to operate important business services within impact tolerances since 31 March 2025.",url:"https://www.fca.org.uk/firms/operational-resilience"},
     {src:"Bank of England",line:"Fundamental Rules for financial market infrastructures take effect on 19 July 2026.",url:"https://www.bankofengland.co.uk/paper/2026/ss/operational-incident-reporting-for-fmis-ss"},
     {src:"CMORG",line:"Strategic Risk Register 2025 refresh: six new threats added and eight re-prioritised as increased risk, with third-party complexity and emerging technology including AI rising up the sector's collective risk picture.",url:"https://www.cmorg.org.uk/news/strategic-risk-register-2025-version-3"},
@@ -658,7 +726,6 @@ var STATS = {
 };
 
 var state = {sector:"bs", role:"ned", band:"", open:null, locked:false, quarter:""};
-var CURRENT_Q = "Q1 2026";
 var hoverTimer=null;
 var HISTORY = {"bs":{"Q4 2025":{"title":"A Year of Reckoning Closes","composite":"3.4","desc":"Elevated overall","meta":"Published by Green Dolphin · January 2026","summary":"Q4 2025 ended with the Nationwide fine landing, the NCSC Annual Review documenting a step-change in incident volume, and regulators formally closing the loop on operational resilience. The year's defining lesson: cyber, supply-chain and conduct risks rarely stay in their own lanes.","risks":{"cyber":{"level":"Critical","dir":"↑ Increasing","text":"NCSC Annual Review documented a <strong>doubling of nationally-significant incidents</strong>. Ransomware remained the dominant pattern, with Scattered Spider-style social engineering the most successful initial access vector against UK firms."},"fraud":{"level":"Critical","dir":"↑ Increasing","text":"The Nationwide fine landed on 12 December 2025. <strong>£44m</strong> with a £27m Covid fraud case at its heart. PSR data shows 88% of APP scams now reimbursed. UK Finance H1 2025 data showed £629m stolen, up 3%."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI adoption broadening across arrears and fraud models. BoE/FCA joint AI survey confirms widespread deployment. Formal supervisory guidance still awaited - and about to be consulted on."},"thirdparty":{"level":"Elevated","dir":"↑ Increasing","text":"<strong>Capita £14m ICO fine</strong> (15 October) and the AWS outage (20 October) provided two very public case studies in concentration risk within the space of a week."},"regulatory":{"level":"Elevated","dir":"→ Stable","text":"FCA Dear CEO letter on fraud protection. PSR mandatory reimbursement rules now in full effect since October 2024. DORA-UK alignment firming up ahead of Q1 2026 MoU."},"tech":{"level":"Elevated","dir":"→ Stable","text":"AWS outage briefly hit Lloyds. Barclays expected payout for its February 2025 outage confirmed at £5-7.5m. <strong>Legacy mainframe skills shortage</strong> increasingly discussed at board level."},"resilience":{"level":"Elevated","dir":"→ Stable","text":"Seven months on from the 31 March 2025 compliance date, regulators shifting focus from mapping to <strong>continuous resilience evidence</strong>. CMORG SIMEX25 planning under way."},"conduct":{"level":"Elevated","dir":"↑ Increasing","text":"FCA Consumer Duty focus areas for 2025/26 published. Price-and-value and consumer understanding flagged as the two areas most in need of outcome evidence."}},"evidence":[{"src":"FCA","line":"FCA fines Nationwide Building Society £44m for financial crime controls failings","url":"https://www.fca.org.uk/news/press-releases/fca-fines-nationwide-44m-failings-financial-crime-controls","risks":["fraud","regulatory"]},{"src":"NCSC","line":"NCSC Annual Review 2025 published - record 204 nationally-significant incidents","url":"https://www.ncsc.gov.uk/collection/ncsc-annual-review-2025","risks":["cyber"]},{"src":"ICO","line":"ICO fines Capita £14m for March 2023 ransomware breach","url":"https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2025/10/capita-fined-14m-for-data-breach-affecting-over-6m-people/","risks":["thirdparty","cyber"]},{"src":"UK Parliament","line":"Treasury Committee writes to HM Treasury after the 20 October AWS outage disrupted Lloyds and HMRC, pressing why no cloud provider has yet been designated a Critical Third Party.","url":"https://committees.parliament.uk/publications/49836/documents/267185/default","risks":["thirdparty","tech","resilience"]},{"src":"ICO","line":"ICO fines LastPass UK Limited £1.2m over 2022 breach","url":"","risks":["cyber","thirdparty"]},{"src":"FCA","line":"FCA Dear CEO letter to banks, building societies and payment firms on fraud protection expectations","url":"","risks":["fraud","regulatory"]}]},"Q3 2025":{"title":"Absorbing the Retail Ransomware Lesson","composite":"3.3","desc":"Elevated overall","meta":"Published by Green Dolphin · October 2025","summary":"The summer quarter was dominated by sector absorption of lessons from the M&S and Co-op ransomware events that had landed in April 2025. The Cyber Monitoring Centre's £270-440m \"single combined cyber event\" categorisation reshaped board conversations about supplier-chain compromise and social-engineering defences.","risks":{"cyber":{"level":"Critical","dir":"↑ Increasing","text":"The <strong>M&S/Co-op events</strong> remained the central sector conversation. Four arrests in July did not change the uncomfortable finding: a capable social engineer and one cooperative helpdesk call is enough."},"fraud":{"level":"Elevated","dir":"→ Stable","text":"APP fraud losses fell 2% across 2024. Industry investment and mandatory reimbursement both credited. <strong>Remote purchase fraud +22%</strong> in volume - the new frontier."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI use cases expanding into regulated decisioning. No formal rules yet; SMCR considered the primary accountability mechanism. Supervisory appetite for an AI-specific framework growing."},"thirdparty":{"level":"Critical","dir":"↑ Increasing","text":"<strong>Supplier-chain compromise</strong> confirmed as the initial vector in the M&S incident. Sector-wide review of Tier-1 supplier social-engineering resilience."},"regulatory":{"level":"Elevated","dir":"→ Stable","text":"UK-DORA alignment work progressing. FCA operational resilience rules bedding in post-31 March 2025. Consumer Duty moving from implementation to supervision."},"tech":{"level":"Elevated","dir":"→ Stable","text":"Quiet quarter for UK retail banking outages. Focus on building observability and detection into change pipelines following the spring's Barclays and cross-bank payday incidents."},"resilience":{"level":"Elevated","dir":"→ Stable","text":"CMORG Strategic Risk Register v3 published May 2025 - <strong>cyber, concentration and AI top the list</strong>. Impact tolerance evidencing now the central supervisory theme."},"conduct":{"level":"Managed","dir":"→ Stable","text":"Consumer Duty focus areas clarified for 2025/26. Price/value and consumer understanding flagged. Vulnerability support in focus jointly with the ICO."}},"evidence":[{"src":"NCA / NCSC","line":"NCA announces arrests linked to M&S/Co-op/Harrods cyber attacks; Scattered Spider/DragonForce named","url":"","risks":["cyber"]},{"src":"Cyber Monitoring Centre","line":"Cyber Monitoring Centre classifies M&S/Co-op attacks as a Category 2 systemic event - £270-440m impact","url":"https://cybermonitoringcentre.com/2025/06/20/cyber-monitoring-centre-statement-on-ransomware-incidents-in-the-retail-sector-june-2025/","risks":["cyber","thirdparty","resilience"]},{"src":"UK Finance","line":"UK Finance Annual Fraud Report 2025 published - £1.17bn stolen in 2024, APP losses £450m","url":"https://www.ukfinance.org.uk/news-and-insight/press-release/fraud-report-2025-press-release","risks":["fraud"]},{"src":"CMORG","line":"CMORG publishes Strategic Risk Register 2025 (v3) prioritising cyber, concentration risk and AI","url":"https://www.cmorg.org.uk/news/strategic-risk-register-2025-version-3","risks":["cyber","thirdparty","ai","resilience"]}]}},"banks":{"Q4 2025":{"title":"Closing a Year in the Glare","composite":"3.4","desc":"Elevated overall","meta":"Published by Green Dolphin · January 2026","summary":"Q4 2025 closed with the Nationwide fine, the NCSC Annual Review documenting record incident volumes, and the AWS October outage reminding the sector that cloud concentration is an operational reality. Treasury Committee scrutiny on IT outages kept banks defending their resilience story in public.","risks":{"cyber":{"level":"Critical","dir":"↑ Increasing","text":"NCSC Annual Review documented a <strong>doubling of nationally-significant incidents</strong>. Ransomware remained the dominant pattern; social engineering the most successful initial access vector."},"fraud":{"level":"Critical","dir":"↑ Increasing","text":"The <strong>Nationwide fine</strong> of 12 December 2025 reset sector expectations on AML. PSR reimbursement running at 88% under the October 2024 rules."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI adoption broadening across trading surveillance, credit and customer servicing. Formal guidance awaited; SMCR treated as the primary accountability mechanism."},"thirdparty":{"level":"Elevated","dir":"↑ Increasing","text":"<strong>Capita £14m ICO fine</strong> (15 October) and <strong>AWS outage</strong> (20 October) provided two very public concentration-risk lessons in one week."},"regulatory":{"level":"Elevated","dir":"→ Stable","text":"FCA Dear CEO letter on fraud protection in December. PSR mandatory reimbursement bedded in. UK-DORA alignment work accelerating."},"tech":{"level":"Elevated","dir":"→ Stable","text":"Barclays compensation for the January 2025 mainframe outage confirmed at £5-7.5m. Mainframe skills shortage emerging as a board-level concern."},"resilience":{"level":"Elevated","dir":"→ Stable","text":"Seven months on from the 31 March 2025 rules date. Supervisory focus shifting from evidence of mapping to <strong>evidence of continuous resilience</strong>."},"conduct":{"level":"Elevated","dir":"↑ Increasing","text":"FCA Consumer Duty 2025/26 focus areas published. Price-and-value and consumer understanding the two areas most in need of outcome evidence."}},"evidence":[{"src":"FCA","line":"FCA fines Nationwide Building Society £44m for financial crime controls failings","url":"https://www.fca.org.uk/news/press-releases/fca-fines-nationwide-44m-failings-financial-crime-controls","risks":["fraud","regulatory"]},{"src":"NCSC","line":"NCSC Annual Review 2025 - 204 nationally-significant incidents (up from 89)","url":"https://www.ncsc.gov.uk/collection/ncsc-annual-review-2025","risks":["cyber"]},{"src":"ICO","line":"ICO fines Capita £14m over March 2023 ransomware breach","url":"https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2025/10/capita-fined-14m-for-data-breach-affecting-over-6m-people/","risks":["thirdparty","cyber"]},{"src":"UK Parliament","line":"Treasury Committee writes to HM Treasury after the 20 October AWS outage disrupted Lloyds and HMRC, pressing why no cloud provider has yet been designated a Critical Third Party.","url":"https://committees.parliament.uk/publications/49836/documents/267185/default","risks":["thirdparty","tech","resilience"]},{"src":"ICO","line":"ICO fines LastPass UK Limited £1.2m over 2022 breach - password manager lessons for SSO dependencies","url":"","risks":["cyber","thirdparty"]}]},"Q3 2025":{"title":"The Retail Ransomware Shock","composite":"3.3","desc":"Elevated overall","meta":"Published by Green Dolphin · October 2025","summary":"The summer quarter was defined by the M&S and Co-op ransomware events still being digested - £270-440m combined impact, Scattered Spider-style social engineering as the initial vector. Banks reviewed supplier-chain resilience and helpdesk authentication with fresh urgency.","risks":{"cyber":{"level":"Critical","dir":"↑ Increasing","text":"The <strong>M&S/Co-op ransomware events</strong> dominated conversation. Uncomfortable finding: a capable social engineer plus one cooperative helpdesk is sufficient."},"fraud":{"level":"Elevated","dir":"→ Stable","text":"APP fraud losses fell 2% across 2024 under the rules. <strong>Remote-purchase fraud +22%</strong> - the new frontier."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI moving into regulated decisioning. No formal rules; SMCR the primary accountability mechanism. Regulatory appetite growing."},"thirdparty":{"level":"Critical","dir":"↑ Increasing","text":"<strong>Supplier-chain social engineering</strong> confirmed as initial vector in the M&S incident. Sector-wide review of Tier-1 helpdesk resilience."},"regulatory":{"level":"Elevated","dir":"→ Stable","text":"UK-DORA alignment progressing. Operational resilience rules fully in force since 31 March 2025. Consumer Duty moving to supervision."},"tech":{"level":"Elevated","dir":"→ Stable","text":"Quiet quarter for retail banking outages. Observability and change-pipeline detection investments following the spring incidents."},"resilience":{"level":"Elevated","dir":"→ Stable","text":"CMORG Strategic Risk Register v3 published - <strong>cyber, concentration and AI top the list</strong>. Impact tolerance evidencing central."},"conduct":{"level":"Managed","dir":"→ Stable","text":"Consumer Duty focus areas clarified for 2025/26. Price/value and consumer understanding flagged. ICO joint work underway."}},"evidence":[{"src":"NCA / NCSC","line":"NCA announces arrests linked to M&S/Co-op/Harrods cyber attacks; DragonForce ransomware ecosystem named","url":"","risks":["cyber"]},{"src":"Cyber Monitoring Centre","line":"Cyber Monitoring Centre classifies M&S/Co-op attacks as Category 2 systemic event - £270-440m impact","url":"https://cybermonitoringcentre.com/2025/06/20/cyber-monitoring-centre-statement-on-ransomware-incidents-in-the-retail-sector-june-2025/","risks":["cyber","thirdparty","resilience"]},{"src":"UK Finance","line":"UK Finance Annual Fraud Report 2025 - £1.17bn stolen in 2024, APP losses £450m (-2%)","url":"https://www.ukfinance.org.uk/news-and-insight/press-release/fraud-report-2025-press-release","risks":["fraud"]},{"src":"CMORG","line":"CMORG publishes Strategic Risk Register 2025 v3 prioritising cyber, concentration risk and AI","url":"https://www.cmorg.org.uk/news/strategic-risk-register-2025-version-3","risks":["cyber","thirdparty","ai","resilience"]}]}},"insurers":{"Q4 2025":{"title":"Climate Embeds, Cyber Capacity Tightens","composite":"3.1","desc":"Elevated overall","meta":"Published by Green Dolphin · January 2026","summary":"Q4 2025 closed with UK insurers preparing to operationalise PRA SS5/25 climate guidance and absorbing a tighter cyber insurance market. Claims payouts on cyber policies continued their 200%+ year-on-year trajectory, squeezing capacity just as demand grew.","risks":{"cyber":{"level":"Critical","dir":"↑ Increasing","text":"Attacks on customer policy portals and broker networks continued. <strong>Cyber line claims rose sharply</strong> and underwriting discipline tightened, with the PRA reviewing its cyber underwriting risk expectations."},"fraud":{"level":"Elevated","dir":"↑ Increasing","text":"Cost-of-living pressure driving application fraud. Claims fraud detection models being refreshed; IFB intelligence highlighting organised motor fraud rings."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI in underwriting and claims triage production-grade. Supervisory appetite for named-accountable sponsorship growing ahead of the 2026 Mills Review."},"thirdparty":{"level":"Elevated","dir":"↑ Increasing","text":"<strong>Reinsurer cyber-exposure correlation</strong> emerging as a named concentration theme. Broker network cyber resilience under active review."},"regulatory":{"level":"Elevated","dir":"↑ Increasing","text":"<strong>PRA SS5/25 climate rules</strong> approaching live. Consumer Duty fair-value thematic on home and travel insurance underway."},"tech":{"level":"Elevated","dir":"→ Stable","text":"Legacy policy admin systems remain the structural exposure. Data migration risk dominant; peer progress varied."},"resilience":{"level":"Managed","dir":"→ Stable","text":"IBS tolerances holding. Mass-event claims surge scenarios being rehearsed ahead of summer."},"conduct":{"level":"Elevated","dir":"↑ Increasing","text":"FCA pure protection insurance market study live. Claims settlement speed and vulnerable customer support under focus."}},"evidence":[{"src":"PRA","line":"PRA SS5/25 climate-related financial risk supervisory statement enters into force","url":"","risks":["regulatory","resilience"]},{"src":"NCSC","line":"NCSC Annual Review 2025 - ransomware remains dominant threat; broker networks flagged","url":"https://www.ncsc.gov.uk/collection/ncsc-annual-review-2025","risks":["cyber","thirdparty"]},{"src":"ICO","line":"ICO Capita £14m fine - 325 pension schemes affected; reinsurer and broker-network supplier lessons","url":"https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2025/10/capita-fined-14m-for-data-breach-affecting-over-6m-people/","risks":["thirdparty","cyber"]},{"src":"PRA","line":"PRA reviewing its cyber underwriting risk expectations (SS4/17) as the cyber insurance market hardens, with a cyber underwriting risk reporting template in effect from December 2024.","url":"https://www.bankofengland.co.uk/prudential-regulation/publication/2025/april/pra-business-plan-2025-26","risks":["cyber","regulatory"]}]},"Q3 2025":{"title":"Catastrophe Models Meet Reality","composite":"2.8","desc":"Elevated overall","meta":"Published by Green Dolphin · October 2025","summary":"Summer 2025 saw natural catastrophe activity bleed into reinsurance pricing discussions and the M&S/Co-op ransomware event reshape broker-network cyber conversations. Climate model refreshes at Lloyd's moved from technical exercise to capital debate.","risks":{"cyber":{"level":"Elevated","dir":"↑ Increasing","text":"The <strong>M&S/Co-op events</strong> surfaced broker-network concentration risk. Cyber line losses tracking ahead of underwriting assumptions for the year."},"fraud":{"level":"Elevated","dir":"→ Stable","text":"IFB intelligence pointing to persistent organised motor fraud. Claims fraud model refreshes in multiple insurers."},"ai":{"level":"Elevated","dir":"↑ Increasing","text":"AI pilots moving into underwriting production. Pricing fairness and explainability on the regulatory horizon."},"thirdparty":{"level":"Elevated","dir":"↑ Increasing","text":"Broker network cyber resilience elevated to board-level attention. <strong>Software vendor consolidation</strong> reducing choice in policy admin."},"regulatory":{"level":"Elevated","dir":"→ Stable","text":"Solvency UK reforms proceeding. PRA climate guidance close to final. Consumer Duty bedded in operationally."},"tech":{"level":"Elevated","dir":"→ Stable","text":"Legacy policy admin modernisation the central technology conversation. Data migration risk dominant over reliability."},"resilience":{"level":"Managed","dir":"→ Stable","text":"IBS impact tolerances holding. Catastrophe response rehearsed; lessons implemented."},"conduct":{"level":"Managed","dir":"→ Stable","text":"Claims settlement speed at target. Fair value review in progress on GAP and pure-protection products."}},"evidence":[{"src":"Lloyd's","line":"Lloyd's issues guidance on non-affirmative cyber exposures and catastrophe model refresh","url":"","risks":["regulatory","cyber","resilience"]},{"src":"Cyber Monitoring Centre","line":"CMC M&S/Co-op Category 2 assessment - broker-network cyber exposure spotlight","url":"https://cybermonitoringcentre.com/2025/06/20/cyber-monitoring-centre-statement-on-ransomware-incidents-in-the-retail-sector-june-2025/","risks":["cyber","thirdparty"]},{"src":"UK Finance","line":"UK Finance Annual Fraud Report 2025 - sector-wide patterns informing insurance fraud models","url":"https://www.ukfinance.org.uk/news-and-insight/press-release/fraud-report-2025-press-release","risks":["fraud"]}]}}};
 var CURRENT_SUMMARY = {"bs":"Q1 2026 closed with the mutual sector absorbing a remarkable run of lessons. The <strong>12 March Lloyds Banking Group app incident</strong> (447,936 customers exposed via an IT change) made change-management the quarter's most visible operational-resilience lesson. The Nationwide £44m financial crime fine continues to reshape sector conversations on AML controls. PRA PS7/26 tightened operational-incident reporting. The Cyber Security and Resilience Bill progressed through Parliament. Basel 3.1 was confirmed for 2027. Regulator focus has shifted decisively from \"are you compliant\" to \"can you prove continuous outcomes\".","banks":"The defining Q1 2026 event was the <strong>12 March Lloyds Banking Group app incident</strong> - a software defect that exposed up to 447,936 customers' transactions across Lloyds, Halifax and Bank of Scotland, putting change-management risk back at the top of every board agenda. In the same quarter, the PRA finalised incident-reporting rules in PS7/26, Basel 3.1 was confirmed for 2027, the UK-EU signed a critical third-party MoU, and the Cyber Security and Resilience Bill progressed through Parliament. Regulator focus has shifted decisively from point-in-time compliance to continuous resilience evidence.","insurers":"For UK insurers, Q1 2026 marked the formal transition of climate from disclosure topic to capital and governance reality. PRA SS5/25 on climate risk is now in effect (June 2026 internal review deadline). PRA PS7/26 formalised operational-incident reporting. The FCA published its 2026 Insurance Regulatory Priorities. The Cyber Security and Resilience Bill progressed through Parliament. The Lloyds March banking event was a visible reminder that reinsurers and their banking clients share the same third-party and change-management risks."};
@@ -754,10 +821,13 @@ function showDetail(key,setHash){
     ansSec.style.display='';
     if(state.band && ANSWERKEY[key][state.band]){
       var a = ANSWERKEY[key][state.band];
-      ans.innerHTML = '<div class="ans ans-strong"><span class="ans-lab">Stronger answer</span><p>'+a.strong+'</p></div>'
+      ans.innerHTML = '<div class="ans-scalebar"></div>'
+        + '<div class="ans-scalelabs"><span>Weaker</span><span>Developing</span><span>Stronger</span></div>'
         + '<div class="ans ans-weak"><span class="ans-lab">Weaker answer</span><p>'+a.weak+'</p></div>'
+        + (a.dev ? '<div class="ans ans-dev"><span class="ans-lab">Developing answer</span><p>'+a.dev+'</p></div>' : '')
+        + '<div class="ans ans-strong"><span class="ans-lab">Stronger answer</span><p>'+a.strong+'</p></div>'
         + '<div class="ans-src">Source: '+a.src+'</div>'
-        + '<div class="ans-disc">Signals to test against your own context, not a pass or fail. Nothing you select leaves your browser.</div>';
+        + '<div class="ans-disc">Three points on the same scale, to test against your own context, not a pass or fail. Nothing you select leaves your browser.</div>';
     } else {
       ans.innerHTML = '<div class="prop-empty">Set an indicative scale above to see what a stronger and weaker answer look like for a firm of your size.</div>';
     }
@@ -814,7 +884,7 @@ function buildList(){
 
 function populateQuarters(){
   var sel=document.getElementById('sel-quarter'); if(!sel) return;
-  var opts='<option value="">'+CURRENT_Q+' (current)</option>';
+  var opts='<option value="">'+CONTENT_QUARTER+' (current)</option>';
   var h=HISTORY[state.sector]||{};
   Object.keys(h).forEach(function(q){ opts+='<option value="'+q+'">'+q+' (archived)</option>'; });
   sel.innerHTML=opts; sel.value=state.quarter||'';
@@ -823,7 +893,25 @@ function populateQuarters(){
 document.getElementById('sel-sector').addEventListener('change',function(){ state.sector=this.value; state.quarter=''; showDefault(); renderSector(); });
 document.getElementById('sel-quarter').addEventListener('change',function(){ state.quarter=this.value; showDefault(); renderSector(); });
 document.getElementById('sel-role').addEventListener('change',function(){ state.role=this.value; if(state.open) showDetail(state.open,false); });
-document.getElementById('sel-band').addEventListener('change',function(){ state.band=this.value; if(state.open) showDetail(state.open,false); });
+var BANDMAP = ['', 'small', 'mid', 'large'];
+document.getElementById('sel-band').addEventListener('input', function(){
+  var idx = +this.value;
+  state.band = BANDMAP[idx];
+  document.querySelectorAll('#scale-ticks span').forEach(function(t){ t.classList.toggle('active', +t.dataset.v === idx); });
+  var callout = document.getElementById('band-callout');
+  if(idx > 0 && callout) callout.classList.add('hide');
+  if(state.open) showDetail(state.open,false);
+});
+(function(){
+  var btn = document.getElementById('cohort-btn'), tip = document.getElementById('cohort-tip'), tipTimer;
+  if(!btn) return;
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    tip.classList.add('show');
+    clearTimeout(tipTimer);
+    tipTimer = setTimeout(function(){ tip.classList.remove('show'); }, 3200);
+  });
+})();
 document.getElementById('d-back').addEventListener('click', showDefault);
 document.getElementById('d-share').addEventListener('click',function(){ copyText(location.href); var s=this; s.textContent='Link copied'; setTimeout(function(){ s.textContent='Copy link to this view'; },1700); });
 document.getElementById('ev-toggle').addEventListener('click',function(){ var p=document.getElementById('ev-panel'); var open=p.classList.toggle('open'); this.classList.toggle('open',open); this.setAttribute('aria-expanded', open?'true':'false'); });
@@ -842,6 +930,7 @@ var QA = [
   {q:"What does a risk mean for a firm like mine?",a:"Open any signal, then set your sector and role. Each risk carries Green Dolphin's read on where it sits, the direction it is moving, the primary sources behind it, and three board questions tailored to your role, from CEO to Chair of Audit."},
   {q:"Which risks are peers most concerned about right now?",a:"It depends on sector. For banks, Third Party, Fraud and Technology sit critical. For insurers, Conduct moves to the centre after the FCA's home and travel fair-value investigations. For building societies, Third Party leads. Switch sector above to see each picture."},
   {q:"Where does this data come from?",a:"Every claim is cited to a primary source: the FCA, PRA, Bank of England, NCSC, ICO, PSR, UK Parliament, UK Finance and CMORG. No trade press, no analyst summaries. If it cannot be cited to a primary source, it does not appear."},
+  {q:"What does the amber \u2018refresh due\u2019 note mean?",a:"The green badge always shows the quarter this analysis actually covers. If today's calendar quarter has moved on since then, an amber note appears next to it, purely as an honesty check. It disappears on its own the moment the next quarterly refresh is published."},
   {q:"Can I use this in my board pack?",a:"Yes. Use Take this to your board to copy this quarter's key moves and the questions worth asking, tailored to your sector and role, straight into your papers."},
   {q:"Is anything I do here shared with Green Dolphin?",a:"Almost nothing. There is no login and nothing that identifies you. If you score your own firm or set an indicative scale, that stays in your browser and is never sent to us. The only thing we collect is the optional, anonymous feedback at the foot of the page: a score and a note, with no name, email or tracking attached."}
 ];
@@ -881,6 +970,13 @@ document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListene
 document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeOverlays(); });
 
 /* init */
+document.getElementById('sources-reviewed').textContent = SOURCES_REVIEWED;
+document.getElementById('quarter-badge').lastChild.textContent = ' ' + CONTENT_QUARTER;
+if (TODAY_QUARTER !== CONTENT_QUARTER) {
+  var sn = document.getElementById('stale-note');
+  sn.textContent = 'Refresh due \u2014 now ' + TODAY_QUARTER;
+  sn.classList.add('show');
+}
 renderSector();
 openFromHash();
 
@@ -896,7 +992,7 @@ function generatePrintDoc(){
   var keys=Object.keys(sec.risks).slice().sort(function(a,b){ return order[sec.risks[a].level]-order[sec.risks[b].level]; });
   var top3=keys.slice(0,3);
   var html='<div class="pd-cover"><div class="pd-cover-top"><div class="pd-brand"><div class="pd-brand-name">Green <strong>Dolphin</strong></div><div class="pd-brand-tag">Guiding you through change with clarity and care</div></div>'
-    +'<div class="pd-cover-meta"><strong>Digital Risk Radar</strong><br>'+sec.label+' \u00b7 '+CURRENT_Q+'<br>Generated '+today+'</div></div>'
+    +'<div class="pd-cover-meta"><strong>Digital Risk Radar</strong><br>'+sec.label+' \u00b7 '+CONTENT_QUARTER+'<br>Generated '+today+'</div></div>'
     +'<div class="pd-cover-title">Quarterly Digital Risk Brief</div>'
     +'<div class="pd-cover-sub">An up-to-date view of the sector\u2019s digital risk landscape, prepared for your next board or risk committee.</div>'
     +'<div class="pd-score-card"><div class="pd-score-label">Composite Score</div><div class="pd-score-value">'+sec.composite+'<small>/5</small></div><div class="pd-score-desc">'+sec.desc+'</div></div>'
@@ -935,7 +1031,10 @@ window.addEventListener('afterprint',function(){ var d=document.getElementById('
     var url=window.GD_RADAR_FEEDBACK_URL;
     var sectorName=(SECTORS[state.sector]&&SECTORS[state.sector].label)||state.sector;
     if(!url){ done(); return; }
-    fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sector:sectorName,score:rate||null,comment:comment,website:hp})}).then(done).catch(done);
+    fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sector:sectorName,score:rate||null,comment:comment,website:hp})})
+      .then(function(r){ return r.json().catch(function(){return {};}); })
+      .then(function(j){ if(j && j.delivered===false){ console.warn('Radar feedback: server accepted the request but email delivery failed. Check RESEND_API_KEY and Resend domain verification in Vercel.'); } done(); })
+      .catch(function(e){ console.warn('Radar feedback: request failed to reach the server.', e); done(); });
   });
 })();
 window.GD_RADAR_FEEDBACK_URL = '/api/feedback';
