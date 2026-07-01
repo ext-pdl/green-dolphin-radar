@@ -86,7 +86,10 @@ button{font-family:inherit}
 #sel-band::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--green);border:none;box-shadow:0 1px 4px rgba(0,0,0,.28);cursor:pointer}
 #sel-band:hover::-webkit-slider-thumb{background:var(--green-dark)}
 .scale-ticks{display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--grey);white-space:nowrap}
-.scale-ticks span{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s,font-weight .15s}
+.scale-ticks span{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;transition:color .15s,font-weight .15s;cursor:pointer;border-radius:6px;padding:2px 4px}
+.scale-ticks span:hover,.scale-ticks span:focus-visible{color:var(--green-dark)}
+.scale-ticks span:hover .sc-ico,.scale-ticks span:focus-visible .sc-ico{color:var(--green-soft)}
+.scale-ticks span:focus-visible{outline:2px solid var(--green-soft);outline-offset:2px}
 .scale-ticks span:first-child{align-items:flex-start}
 .scale-ticks span:last-child{align-items:flex-end}
 .sc-ico{height:27px;display:flex;align-items:flex-end;color:var(--grey)}
@@ -901,6 +904,17 @@ document.getElementById('sel-band').addEventListener('input', function(){
   var callout = document.getElementById('band-callout');
   if(idx > 0 && callout) callout.classList.add('hide');
   if(state.open) showDetail(state.open,false);
+});
+// let people click (or keyboard-select) the building icon/label itself, not just drag the slider
+document.querySelectorAll('#scale-ticks span').forEach(function(t){
+  t.setAttribute('role','button'); t.setAttribute('tabindex','0');
+  var pick = function(){
+    var band = document.getElementById('sel-band');
+    band.value = t.dataset.v;
+    band.dispatchEvent(new Event('input', {bubbles:true}));
+  };
+  t.addEventListener('click', pick);
+  t.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } });
 });
 (function(){
   var btn = document.getElementById('cohort-btn'), tip = document.getElementById('cohort-tip'), tipTimer;
