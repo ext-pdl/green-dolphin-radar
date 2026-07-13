@@ -82,7 +82,9 @@ button{font-family:inherit}
 .cited{font-size:12.5px;color:var(--grey)} .cited b{color:var(--ink);font-weight:600}
 .score{flex:0 0 auto;text-align:right;min-width:184px}
 .score-top{display:flex;align-items:baseline;justify-content:flex-end;gap:3px}
-.score-num{font-family:var(--disp);font-weight:700;font-size:48px;color:var(--ink);line-height:1}
+.score-num{font-family:var(--disp);font-weight:700;font-size:48px;color:var(--ink);line-height:1;display:inline-block}
+.score-num.settle{animation:scoreSettle .55s cubic-bezier(.3,1.3,.4,1)}
+@keyframes scoreSettle{0%{transform:translateY(0)}35%{transform:translateY(-4px) scale(1.04)}100%{transform:translateY(0) scale(1)}}
 .score-max{font-family:var(--disp);font-weight:500;font-size:20px;color:var(--grey)}
 .score-gauge{position:relative;width:184px;height:9px;margin:12px 0 0 auto}
 .score-track{position:absolute;inset:0;border-radius:6px;background:linear-gradient(to right,var(--safe) 0%,var(--safe) 24%,var(--elev) 42%,var(--elev) 62%,var(--crit) 80%,var(--crit) 100%)}
@@ -92,8 +94,8 @@ button{font-family:inherit}
 .score-chip.safe{background:rgba(95,199,158,.16);color:var(--green-dark)}
 .score-chip.elev{background:rgba(229,162,58,.18);color:#B07A1E}
 .score-chip.crit{background:rgba(224,88,79,.16);color:#C0463D}
-.nocatch{margin-top:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.nocatch .pill{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--green-dark)}
+
+
 
 /* CONTROLS */
 .controls{margin-top:0;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
@@ -424,7 +426,7 @@ body.theatre .ask-fab,body.theatre .uc-toast,body.theatre .story-invite{display:
 .si-bulb{flex:none;color:var(--green-dark);display:flex;margin-left:2px}
 @media(max-width:600px){.story-invite{top:auto;bottom:14px;left:12px;right:12px;max-width:none;transform:translateY(16px)}}
 @media(max-width:600px){.story-row{flex-direction:column}.story-photo{width:64px;height:64px}}
-@media(prefers-reduced-motion:reduce){.cp-orbit{display:none}}
+@media(prefers-reduced-motion:reduce){.cp-orbit{display:none}.score-num.settle{animation:none}}
 /* people behind the radar + contact */
 .team{border-top:1px solid var(--hair);margin-top:34px;padding-top:30px}
 .team-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:20px}
@@ -441,6 +443,12 @@ body.theatre .ask-fab,body.theatre .uc-toast,body.theatre .story-invite{display:
 .team-cta{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;text-decoration:none;font-family:var(--sans);font-weight:600;font-size:14px;padding:11px 20px;border-radius:8px;transition:background .15s}
 .team-cta:hover{background:var(--green-dark)}
 @media(max-width:720px){.team-cta-wrap{margin-left:0;text-align:left;width:100%}.team-grid{gap:24px}}
+.wont{margin:6px 0 30px;padding-top:28px;border-top:1px solid var(--hair)}
+.wont-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 40px;margin-top:18px}
+.wont-item{display:flex;gap:12px;font-family:var(--sans);font-size:13.5px;line-height:1.55;color:var(--body)}
+.wont-item b{color:var(--ink)}
+.wi-x{flex:none;width:20px;height:20px;border-radius:50%;border:1px solid var(--hair);color:var(--grey);font-size:12px;line-height:1;display:flex;align-items:center;justify-content:center;margin-top:2px}
+@media(max-width:720px){.wont-grid{grid-template-columns:1fr}}
 
 @media(max-width:840px){
   .radar-grid{grid-template-columns:1fr;gap:24px;padding:22px}
@@ -589,10 +597,6 @@ body.theatre .ask-fab,body.theatre .uc-toast,body.theatre .story-invite{display:
         <span class="score-chip" id="score-chip">Elevated overall</span>
         <div class="score-note" id="score-note"></div>
       </div>
-    </div>
-
-    <div class="nocatch">
-      <span class="pill">Free</span><span class="pill">No login</span><span class="pill">No personal data</span><span class="pill">No catch</span>
     </div>
 
     <div class="control-panel">
@@ -772,6 +776,18 @@ body.theatre .ask-fab,body.theatre .uc-toast,body.theatre .story-invite{display:
     </div>
   </div>
 </section></div>
+
+<div class="wrap">
+<section class="wont" aria-label="What this radar is not">
+  <span class="team-kicker">What this radar is not</span>
+  <div class="wont-grid">
+    <div class="wont-item"><span class="wi-x">&times;</span><div><b>Not advice.</b> It is a cited read of the public record, built to open better board questions, not to answer them for you.</div></div>
+    <div class="wont-item"><span class="wi-x">&times;</span><div><b>Not a funnel.</b> No login, no tracking, no gated version. Nothing you do here leaves your browser.</div></div>
+    <div class="wont-item"><span class="wi-x">&times;</span><div><b>Not trade press.</b> If a claim cannot be traced to a primary regulatory or Parliamentary source, it does not appear.</div></div>
+    <div class="wont-item"><span class="wi-x">&times;</span><div><b>Not your risk register.</b> It shows where the sector pressure sits. Your own profile remains yours to own.</div></div>
+  </div>
+</section>
+</div>
 
 <div class="wrap"><footer class="foot">
   <div class="foot-brand"><span class="logo"><span class="g">Green</span><span class="d">Dolphin</span><span class="t">(TCCR)</span></span><span class="foot-brand-r" id="foot-quarter">Digital Risk Radar</span></div>
@@ -1170,7 +1186,7 @@ function renderSector(){
   var cv, desc;
   if(hist){ cv = hist.composite!=null ? parseFloat(hist.composite) : compositeOf(hist.risks); desc = hist.desc || descOf(cv); }
   else { cv = parseFloat(sec.composite); desc = sec.desc; }
-  document.getElementById('score-num').textContent = cv.toFixed(1);
+  if(window.__tweenScore){ window.__tweenScore(cv); } else { document.getElementById('score-num').textContent = cv.toFixed(1); }
   document.getElementById('score-marker').style.left = (cv/5*100) + '%';
   var band = cv >= 3.5 ? 'crit' : (cv >= 2.0 ? 'elev' : 'safe');
   var chip = document.getElementById('score-chip');
@@ -1422,7 +1438,7 @@ function generatePrintDoc(){
     html+='<section class="pd-close"><p class="pd-kicker on-dark"><span class="dot"></span>About the radar</p>'
       +'<h2 class="pd-close-title">A calm, current read on digital risk: every claim traceable to source.</h2>'
       +'<p class="pd-close-body">The Green Dolphin Digital Risk Radar is a free, quarterly publication. It maps eight connected digital-risk domains across UK banks, building societies and insurers, with every claim cited to a primary regulatory or Parliamentary source.</p>'
-      +'<p class="pd-close-body">This brief reflects the radar as of '+today+'. The interactive version, with the evidence behind each domain, MITRE ATT&amp;CK technique mapping and quarter-by-quarter history, is at radar.greendolphintccr.com.</p>'
+      +'<p class="pd-close-body">This brief is not advice and not a substitute for your own risk register; it is a cited read of the public record. It reflects the radar as of '+today+'. The interactive version, with the evidence behind each domain, MITRE ATT&amp;CK technique mapping and quarter-by-quarter history, is at radar.greendolphintccr.com.</p>'
       +'<div class="pd-close-divider"></div>'
       +'<div class="pd-contact-lbl">Talk to us</div>'
       +'<div class="pd-close-people">'
@@ -1780,7 +1796,7 @@ window.GD_RADAR_FEEDBACK_URL = '/api/feedback';
       var p=Math.min((ts-t0)/DUR,1);
       var eased=1-Math.pow(1-p,3);
       num.textContent=(finalScore*eased).toFixed(1);
-      if(p<1) requestAnimationFrame(count); else finishSoft();
+      if(p<1) requestAnimationFrame(count); else { num.classList.add('settle'); setTimeout(function(){ num.classList.remove('settle'); },600); finishSoft(); }
     }
     requestAnimationFrame(count);
   }, scoreAt));
@@ -1901,6 +1917,34 @@ window.GD_RADAR_FEEDBACK_URL = '/api/feedback';
       exit();
     }
   });
+})();
+</script>
+<script>
+(function(){
+  var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var el=document.getElementById('score-num');
+  if(!el) return;
+  var raf=null;
+  window.__tweenScore=function(target){
+    if(rm){ el.textContent=target.toFixed(1); return; }
+    var from=parseFloat(el.textContent)||0;
+    if(Math.abs(from-target)<0.05){ el.textContent=target.toFixed(1); return; }
+    if(raf) cancelAnimationFrame(raf);
+    var t0=null, DUR=600;
+    function step(ts){
+      if(t0===null) t0=ts;
+      var p=Math.min((ts-t0)/DUR,1), eased=1-Math.pow(1-p,3);
+      el.textContent=(from+(target-from)*eased).toFixed(1);
+      if(p<1){ raf=requestAnimationFrame(step); }
+      else{
+        raf=null;
+        el.classList.remove('settle'); void el.offsetWidth;
+        el.classList.add('settle');
+        setTimeout(function(){ el.classList.remove('settle'); },600);
+      }
+    }
+    raf=requestAnimationFrame(step);
+  };
 })();
 </script>
 </body>
