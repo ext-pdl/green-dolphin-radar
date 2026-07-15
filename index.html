@@ -619,6 +619,27 @@ body.theatre .ask-fab,body.theatre .uc-toast,body.theatre .story-invite{display:
 .fl-left{display:flex;flex-direction:column;gap:2px;flex:1 1 220px;min-width:0}
 .fl-title{font-family:var(--disp);font-weight:600;font-size:14px;color:#fff}
 .fl-sub{font-family:var(--sans);font-size:12px;color:rgba(201,210,206,.75);line-height:1.4}
+.fl-scope{font-family:var(--sans);font-size:11px;color:rgba(201,210,206,.55);line-height:1.4;margin-top:4px;font-style:italic}
+.mth-link{background:none;border:none;padding:0;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--green-dark);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mth-link:hover{color:var(--ink)}
+.mth-sec{margin-bottom:18px}
+.mth-sec h4{font-family:var(--disp);font-weight:600;font-size:14.5px;color:var(--ink);margin:0 0 6px}
+.mth-sec p{font-family:var(--sans);font-size:13px;line-height:1.55;color:var(--body);margin:0 0 8px}
+.mth-sec p b{font-weight:600;color:var(--ink)}
+.mth-gloss{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--body)}
+.mth-gloss dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--green-dark);font-weight:500;white-space:nowrap}
+.mth-gloss dd{margin:0}
+.tt-block{margin:0 0 12px;padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:10px}
+.tt-lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green-soft);margin-bottom:8px}
+.tt-row{display:flex;gap:10px;align-items:baseline;font-family:var(--sans);font-size:13px;line-height:1.45;color:rgba(232,240,236,.92);margin-bottom:6px}
+.tt-row .n{flex:none;font-family:var(--mono);font-size:9.5px;color:var(--rdr);background:var(--green-soft);border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;font-weight:600}
+.tt-row b{color:#fff;font-weight:600}
+.fe-line{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(15,155,108,.3);font-family:var(--sans);font-size:12.5px;line-height:1.5;color:rgba(232,240,236,.88)}
+.fe-line b{font-weight:600;color:#fff}
+.fe-lineage{margin-top:9px;font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:rgba(201,210,206,.55);line-height:1.6}
+.gm-challenge{margin-top:9px;padding-top:9px;border-top:1px dashed rgba(224,88,79,.35)}
+.gm-challenge b{font-weight:600;color:var(--ink)}
+.gm-lineage{margin-top:8px;font-family:var(--mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--grey);line-height:1.6}
 .fl-toggle{display:inline-flex;align-items:center;gap:10px;background:rgba(95,199,158,.10);border:1px solid rgba(95,199,158,.28);border-radius:8px;padding:8px 14px;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500;color:#fff;transition:background .15s,border-color .15s}
 .fl-toggle:hover{background:rgba(95,199,158,.18);border-color:var(--green-soft)}
 .fl-toggle.on{background:var(--green);border-color:var(--green);color:#fff}
@@ -916,6 +937,7 @@ body.firm-mode .peer-note.only-on{display:inline-flex}
         <div class="fl-left">
           <div class="fl-title">Firm Lens: your own data on the radar</div>
           <div class="fl-sub">Your risk events and CQUEST control maturity, plotted against the sector view, with peer benchmarking across the cohort. Reserved for the five founding cohort firms. The first five receive free access to all functionality for as long as the radar is offered.</div>
+          <div class="fl-scope">A cited read to support board discussion. Not advice, and not a substitute for your own risk register.</div>
         </div>
         <button type="button" class="fl-locked" id="fl-locked"><span class="fl-lock-ico">&#128274;</span><span>Cohort firms only &middot; Register your interest below</span></button>
       </div>
@@ -989,6 +1011,7 @@ body.firm-mode .peer-note.only-on{display:inline-flex}
       <div>
         <h3 class="peer-title">Where you sit in the cohort</h3>
         <div class="peer-sub">Composite position and domain-by-domain comparison across the five cohort firms. Names anonymised; each firm sees only itself named.</div>
+        <button type="button" class="mth-link" id="open-method">How this is scored</button>
       </div>
       <span class="peer-note only-off">Reserved for cohort firms &middot; register your interest below</span>
       <span class="peer-note only-on" style="background:rgba(15,155,108,.10);color:var(--green-dark)">Preview &middot; peer values illustrative until cohort fills</span>
@@ -1007,7 +1030,7 @@ body.firm-mode .peer-note.only-on{display:inline-flex}
         <table class="heat" id="heat-table"></table>
       </div>
     </details>
-    <p class="peer-foot">Peer composites blend six CQUEST domain averages with a Q2 2026 event-pressure score (severity-weighted count). Not an FCA measure: a working comparator for board discussion. Event counts reflect reporting culture as much as risk: a firm that reports diligently is not a riskier firm, so comparisons weight severity and control maturity, with raw counts as context only. Quarter-on-quarter trend arrows appear from each firm's second quarter in the cohort. Peer firm values shown are illustrative placeholders; they become live as each cohort firm's data lands.</p>
+    <p class="peer-foot">Peer composites blend six CQUEST domain averages with a Q2 2026 event-pressure score (severity-weighted count). Not an FCA measure: a working comparator for board discussion. Event counts reflect reporting culture as much as risk: a firm that reports diligently is not a riskier firm, so comparisons weight severity and control maturity, with raw counts as context only. Quarter-on-quarter trend arrows appear from each firm's second quarter in the cohort. Peer firm values shown are illustrative placeholders; they become live as each cohort firm's data lands. Scoring method and cohort data handling: see How this is scored above.</p>
   </section>
 </div>
 
@@ -1120,6 +1143,31 @@ body.firm-mode .peer-note.only-on{display:inline-flex}
   <div id="qa-list"></div>
   <div class="human"><p>Want to talk to a person instead?</p><a href="mailto:info@greendolphintccr.com?subject=Digital%20Risk%20Radar%3A%20a%20question">◈ Talk to Green Dolphin</a></div>
   <p class="soon">Asking your own question in your own words is coming in a later release.</p>
+</div></div>
+
+<div class="overlay" id="method-overlay" role="dialog" aria-modal="true" aria-label="How this is scored"><div class="sheet">
+  <button class="sheet-x" data-close aria-label="Close">&times;</button>
+  <h3>How this is scored</h3>
+  <div class="mth-sec"><h4>The scale</h4>
+  <p><b>Critical, Elevated and Managed are Green Dolphin's scale</b>, built for board discussion. They are not supervisory ratings and do not represent the view of any regulator.</p></div>
+  <div class="mth-sec"><h4>The sector view</h4>
+  <p>Updated quarterly. Every sector claim is cited to a primary source: FCA, PRA, Bank of England, NCSC, ICO or Parliament. No commentary without a citation.</p></div>
+  <div class="mth-sec"><h4>The firm view (cohort firms)</h4>
+  <p>Two data sources, read together. <b>CQUEST control maturity</b>: the Bank of England's cyber resilience questionnaire, self-assessed by management. Answers score A=4 down to D=1 and are averaged per category, shown on their native 4-point scale. Governance, Identify, Protect, Detect, Respond and Recover inform the cyber, technology and resilience domains. <b>Risk events</b>: the firm's own incident and near-miss register, mapped from its event categories to the eight radar domains and weighted by severity. A high-severity event carries far more weight than a very low one, and regulatory-breach flags are counted separately regardless of severity, because they matter to a regulator whatever the financial impact.</p>
+  <p>The <b>firm composite</b> is a 5-point blend of control maturity and severity-weighted event pressure. Bands: 3.5 and above reads Critical, 2.0 and above Elevated, below that Managed. Weightings are reviewed with each cohort firm at onboarding.</p></div>
+  <div class="mth-sec"><h4>Evidence density</h4>
+  <p>Domains differ in how much firm evidence sits behind them. CQUEST speaks directly to cyber, technology and resilience; fraud, conduct and regulatory ratings rest on event data alone until a firm contributes further sources. A rating on thin evidence is flagged in the evidence text rather than dressed up as certainty.</p></div>
+  <div class="mth-sec"><h4>How cohort data is handled</h4>
+  <p>Each firm's data is held separately and provisioned only into that firm's own private build. Peers see anonymised positions only, never underlying events or scores. The public radar carries no cohort firm data at all. A firm leaving the cohort has its data removed from all peer comparisons.</p></div>
+  <div class="mth-sec"><h4>Glossary</h4>
+  <dl class="mth-gloss">
+  <dt>CQUEST</dt><dd>The Bank of England's cyber resilience questionnaire, used across UK financial firms.</dd>
+  <dt>CTP</dt><dd>Critical Third Party: a supplier designated by HM Treasury as critical to the UK financial system, now under direct regulator oversight.</dd>
+  <dt>Impact tolerance</dt><dd>The maximum disruption a firm's board has decided an important business service can bear.</dd>
+  <dt>PQC</dt><dd>Post-quantum cryptography: encryption designed to withstand future quantum computers. The NCSC roadmap runs to 2035.</dd>
+  <dt>Near miss</dt><dd>An event caught before it caused harm. A rising near-miss count often signals a maturing reporting culture, not rising risk.</dd>
+  </dl></div>
+  <p class="mth-sec" style="font-style:italic;font-size:12px;color:var(--grey)">This tool is a cited read of the public record and the firm's own data, built to support board discussion. It is not advice and not a substitute for the firm's own risk register.</p>
 </div></div>
 
 <div class="overlay" id="board-overlay" role="dialog" aria-modal="true" aria-label="Take this to your board"><div class="sheet">
@@ -1509,7 +1557,7 @@ function renderPeerPanel(){
       +'<div class="peer-score"><span class="pn">'+f.composite.toFixed(1)+'</span><span class="pmax">/5</span><span class="plbl">'+bandLbl+'</span></div>'
       +'<div class="peer-bar"><div class="peer-bar-fill '+band+'" style="width:'+pct.toFixed(0)+'%"></div></div>'
       +'<div class="peer-meta2">'
-      +'<div class="pm-row"><span>Control maturity (CQUEST)</span><b>'+f.cquest.overall.toFixed(1)+'/5</b></div>'
+      +'<div class="pm-row"><span>Control maturity (CQUEST)</span><b>'+f.cquest.overall.toFixed(1)+'/4</b></div>'
       +'<div class="pm-row"><span>Higher-severity events, Q2</span><b>'+notable+'</b></div>'
       +'<div class="pm-sub">'+f.events.high+' high &middot; '+f.events.med+' medium</div>'
       +'<div class="pm-row"><span>Regulatory flags raised</span><b>'+f.events.regBreach+'</b></div>'
@@ -1560,7 +1608,7 @@ function renderOutliers(){
   });
   // rank line
   var rk = cohortRank(you);
-  var rankLine = {type: rk.rank<=2?'good':'bad', txt:'<b>Cohort position: '+ordinal(rk.rank)+' of '+rk.of+'</b> on composite exposure. '+(rk.rank===1?'Strongest position in the cohort.':rk.rank<=2?'Upper half of the cohort.':rk.rank>=rk.of?'Weakest composite in the cohort. The peer gap itself belongs on the board agenda.':'Mid-cohort. The domain-level gaps below matter more than the average.')};
+  var rankLine = {type: rk.rank<=2?'good':'bad', txt:'<b>Cohort position: '+ordinal(rk.rank)+' of '+rk.of+'</b> on composite exposure. '+(rk.rank===1?'Strongest position in the cohort. Peer position is context, not comfort: leading a weak cohort is not the same as being strong.':rk.rank<=2?'Upper half of the cohort.':rk.rank>=rk.of?'Weakest composite in the cohort. The peer gap itself belongs on the board agenda.':'Mid-cohort. The domain-level gaps below matter more than the average. Peer position is context, not comfort: mid-table in a weak cohort is still weak.')};
   var items = [rankLine].concat(out);
   host.innerHTML = items.map(function(o){
     return '<div class="outlier '+o.type+'"><span class="oi">'+(o.type==='bad'?'\u25B2':'\u25CF')+'</span><span>'+o.txt+'</span></div>';
@@ -1603,7 +1651,10 @@ function showDetail(key,setHash){
       evEl.className = 'firm-ev';
       evEl.innerHTML = '<div class="firm-ev-head"><span class="firm-ev-lab">'+f.label+' \u00b7 your evidence</span>'
         + '<span class="firm-ev-pair">Sector <span class="s-lvl '+cls+'">'+rk.level+'</span> &nbsp;&middot;&nbsp; Firm <span class="f-lvl '+fcls+'">'+fr.level+'</span></span></div>'
-        + '<div class="firm-ev-txt">'+(fr.evidence||'No firm-specific evidence recorded against this domain for the current period.')+'</div>';
+        + '<div class="firm-ev-txt">'+(fr.evidence||'No firm-specific evidence recorded against this domain for the current period.')+'</div>'
+        + (fr.challenge?'<div class="fe-line"><b>Where self-assessment and the record disagree:</b> '+fr.challenge+'</div>':'')
+        + (fr.fq?'<div class="fe-line"><b>The question this raises:</b> '+fr.fq+'</div>':'')
+        + (f.lineage?'<div class="fe-lineage">'+f.lineage+'</div>':'');
       var takeLab = document.querySelector('#p-detail .take-label');
       if(takeLab && takeLab.parentNode){ takeLab.parentNode.insertBefore(evEl, takeLab); }
     }
@@ -1726,6 +1777,9 @@ function renderGapChart(){
     var more = hasMore ? '<div class="g-more"><div class="gm-box">'
       +(f2.evidence?'<div class="gm-lbl">'+f.label+' \u00b7 the evidence</div><div>'+f2.evidence+'</div>':'')
       +(f2.move?'<div class="gm-move"><b>What would move this rating:</b> '+f2.move+'</div>':'')
+      +(f2.challenge?'<div class="gm-challenge"><b>Where self-assessment and the record disagree:</b> '+f2.challenge+'</div>':'')
+      +(f2.fq?'<div class="gm-challenge" style="border-top-color:rgba(15,155,108,.3)"><b>The question this raises:</b> '+f2.fq+'</div>':'')
+      +(f.lineage?'<div class="gm-lineage">'+f.lineage+'</div>':'')
       +'</div></div>' : '';
     var cta = f2.move ? '<button type="button" class="g-move-cta">What would move this?</button>' : '';
     return '<div class="g-row '+dir+(hasMore?' exp':'')+'" data-key="'+r.k+'">'
@@ -1835,7 +1889,29 @@ function renderDefaultPanel(){
   var card = document.createElement('div');
   card.id = 'div-card-host';
   card.className = 'div-card';
-  card.innerHTML = '<div class="div-card-lab">Where '+f.label+' diverges from the sector view</div>'
+  var widest = null, widestGap = 0;
+  divs.forEach(function(k){
+    var g = Math.abs(GSEV[firmRisk(k).level] - GSEV[sec[k].level]);
+    if(g > widestGap && GSEV[firmRisk(k).level] > GSEV[sec[k].level]){ widestGap = g; widest = k; }
+  });
+  var horizonHot = '';
+  try{
+    if(typeof HORIZON !== 'undefined'){
+      var nowD = new Date();
+      for(var hi=0; hi<HORIZON.length; hi++){
+        var it = HORIZON[hi];
+        if(new Date(it.d+'T00:00:00') > nowD && f.risks[it.k] && f.risks[it.k].level==='Critical'){
+          horizonHot = it.t+' ('+(it.approx||new Date(it.d+'T00:00:00').toLocaleDateString('en-GB',{month:'short',year:'numeric'}))+') lands on a domain rated Critical on your evidence.';
+          break;
+        }
+      }
+    }
+  }catch(e){}
+  var ttRows = '<div class="tt-row"><span class="n">1</span><span>Cohort position: <b>'+ordinal(rk.rank)+' of '+rk.of+'</b> on composite exposure.</span></div>';
+  if(widest) ttRows += '<div class="tt-row"><span class="n">2</span><span>Widest gap: <b>'+FULL[widest]+'</b>, '+widestGap+' step'+(widestGap>1?'s':'')+' above the sector view.</span></div>';
+  if(horizonHot) ttRows += '<div class="tt-row"><span class="n">'+(widest?3:2)+'</span><span>On the horizon: <b>'+horizonHot+'</b></span></div>';
+  card.innerHTML = '<div class="tt-block"><div class="tt-lab">Three things to tell your board</div>'+ttRows+'</div>'
+    + '<div class="div-card-lab">Where '+f.label+' diverges from the sector view</div>'
     + '<h4>'+divs.length+' of 8 domains diverge on your own evidence</h4>'
     + '<p>'+msg+' Sector view is Q3 2026 evidence from FCA, PRA, NCSC, ICO and Parliament. Firm view blends your CQUEST maturity (2025) with Q2 2026 risk-event data.</p>'
     + '<div class="div-doms">'+divs.map(function(k){ return '<span class="div-dom" data-key="'+k+'">'+FULL[k]+' \u2192</span>'; }).join('')
@@ -1972,6 +2048,7 @@ function closeOverlays(){ document.querySelectorAll('.overlay').forEach(function
 document.getElementById('open-ask').addEventListener('click',function(){ openOverlay('ask-overlay'); });
 var _ob = document.getElementById('open-board'); if(_ob){ _ob.addEventListener('click',function(){ openOverlay('board-overlay'); }); }
 document.getElementById('dl-pdf').addEventListener('click', downloadBriefPDF);
+var _om = document.getElementById('open-method'); if(_om){ _om.addEventListener('click', function(){ openOverlay('method-overlay'); }); }
 document.getElementById('open-howto').addEventListener('click',function(){ openOverlay('howto-overlay'); });
 document.getElementById('open-howto-2').addEventListener('click',function(){ openOverlay('howto-overlay'); });
 document.getElementById('open-usecases').addEventListener('click',function(){ openOverlay('usecase-overlay'); });
@@ -2147,7 +2224,7 @@ function generatePrintDoc(){
       html+='<table class="pd-peer-table"><tr><th>Rank</th><th>Firm</th><th>Composite</th><th>CQUEST</th><th>Q2 events (H/M)</th><th>Reg flags</th></tr>';
       rkOrder.forEach(function(id, idx){
         var f=FIRMS[id];
-        html+='<tr'+(id===state.firm?' class="you"':'')+'><td>'+ordinal(idx+1)+'</td><td>'+f.label+(id===state.firm?' (you)':'')+'</td><td>'+f.composite.toFixed(1)+'/5</td><td>'+f.cquest.overall.toFixed(1)+'/5</td><td>'+f.events.high+' / '+f.events.med+'</td><td>'+f.events.regBreach+'</td></tr>';
+        html+='<tr'+(id===state.firm?' class="you"':'')+'><td>'+ordinal(idx+1)+'</td><td>'+f.label+(id===state.firm?' (you)':'')+'</td><td>'+f.composite.toFixed(1)+'/5</td><td>'+f.cquest.overall.toFixed(1)+'/4</td><td>'+f.events.high+' / '+f.events.med+'</td><td>'+f.events.regBreach+'</td></tr>';
       });
       html+='</table>';
       // outliers (same logic as UI)
@@ -2158,7 +2235,8 @@ function generatePrintDoc(){
         if(mine>Math.max.apply(null,others)){ html+='<div class="pd-outlier bad"><span>\u25B2</span><span><b>'+FULL[k]+'</b>: the only cohort firm at '+firm.risks[k].level+'. The widest gap against your peers.</span></div>'; }
         else if(mine<Math.min.apply(null,others)){ html+='<div class="pd-outlier good"><span>\u25CF</span><span><b>'+FULL[k]+'</b>: strongest position in the cohort. Worth a line in the board pack, and worth protecting.</span></div>'; }
       });
-      html+='<div class="pd-illustrative">Peer firm values are illustrative placeholders and become live as each cohort firm\u2019s data lands. Composites are a Green Dolphin working comparator for board discussion, not an FCA measure. Cohort firms are anonymised; each firm sees only itself named.</div>';
+      html+='<div class="pd-outlier bad" style="background:rgba(19,32,27,.04);border-color:#D9E0DC"><span>\u25CB</span><span><b>Peer position is context, not comfort.</b> A mid-table rank in a weak cohort is still weak; the domain-level gaps matter more than the average.</span></div>';
+      html+='<div class="pd-illustrative">Scoring method, evidence density and cohort data handling are described in the radar\u2019s How this is scored annex. Peer firm values are illustrative placeholders and become live as each cohort firm\u2019s data lands. Composites are a Green Dolphin working comparator for board discussion, not an FCA measure. Cohort firms are anonymised; each firm sees only itself named.</div>';
       html+='</div>';
     }
     html+='</section>';
